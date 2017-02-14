@@ -1,0 +1,23 @@
+{
+    "greenHouseApp": {
+        "greenHouseManager" : {
+            "home": {
+                "title": "Green House Managers",
+                "createLabel": "Dodaj Green House Manager",
+                "createOrEditLabel": "Dodaj lub edytuj: Green House Manager",
+                "search": "Search for Green House Manager"
+            },
+            "created": "A new Green House Manager is created with identifier {{ param }}",
+            "updated": "A Green House Manager is updated with identifier {{ param }}",
+            "deleted": "A Green House Manager is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć Green House Manager {{ id }}?"
+            },
+            "detail": {
+                "title": "Green House Manager"
+            },
+            "settings": "Settings",
+            "greenHouse": "Green House"
+        }
+    }
+}

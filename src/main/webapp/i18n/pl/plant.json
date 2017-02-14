@@ -1,0 +1,23 @@
+{
+    "greenHouseApp": {
+        "plant" : {
+            "home": {
+                "title": "Plants",
+                "createLabel": "Dodaj Plant",
+                "createOrEditLabel": "Dodaj lub edytuj: Plant",
+                "search": "Search for Plant"
+            },
+            "created": "A new Plant is created with identifier {{ param }}",
+            "updated": "A Plant is updated with identifier {{ param }}",
+            "deleted": "A Plant is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć Plant {{ id }}?"
+            },
+            "detail": {
+                "title": "Plant"
+            },
+            "name": "Name",
+            "humidity": "Humidity"
+        }
+    }
+}

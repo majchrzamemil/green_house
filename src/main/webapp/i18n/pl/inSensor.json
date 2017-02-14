@@ -1,0 +1,23 @@
+{
+    "greenHouseApp": {
+        "inSensor" : {
+            "home": {
+                "title": "In Sensors",
+                "createLabel": "Dodaj In Sensor",
+                "createOrEditLabel": "Dodaj lub edytuj: In Sensor",
+                "search": "Search for In Sensor"
+            },
+            "created": "A new In Sensor is created with identifier {{ param }}",
+            "updated": "A In Sensor is updated with identifier {{ param }}",
+            "deleted": "A In Sensor is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć In Sensor {{ id }}?"
+            },
+            "detail": {
+                "title": "In Sensor"
+            },
+            "name": "Name",
+            "pinNumber": "Pin Number"
+        }
+    }
+}

@@ -1,0 +1,12 @@
+version: '2'
+services:
+    green_house-postgresql:
+        container_name: green_house-postgresql
+        image: postgres:9.5.4
+        # volumes:
+        #     - ~/volumes/jhipster/green_house/postgresql/:/var/lib/postgresql/
+        environment:
+            - POSTGRES_USER=green_house
+            - POSTGRES_PASSWORD=
+        ports:
+            - 5432:5432

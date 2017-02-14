@@ -1,0 +1,23 @@
+{
+    "greenHouseApp": {
+        "outSwitch" : {
+            "home": {
+                "title": "Out Switches",
+                "createLabel": "Dodaj Out Switch",
+                "createOrEditLabel": "Dodaj lub edytuj: Out Switch",
+                "search": "Search for Out Switch"
+            },
+            "created": "A new Out Switch is created with identifier {{ param }}",
+            "updated": "A Out Switch is updated with identifier {{ param }}",
+            "deleted": "A Out Switch is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć Out Switch {{ id }}?"
+            },
+            "detail": {
+                "title": "Out Switch"
+            },
+            "name": "Name",
+            "pinNumber": "Pin Number"
+        }
+    }
+}
