@@ -91,6 +91,12 @@
 
 
     <dependencies>
+             <dependency>
+                             <groupId>com.pi4j</groupId>
+                                         <artifactId>pi4j-core</artifactId>
+                                                     <version>1.1</version>
+ </dependency>
+                                                             
         <dependency>
             <groupId>io.github.jhipster</groupId>
             <artifactId>jhipster</artifactId>
@@ -115,6 +121,11 @@
             <artifactId>metrics-json</artifactId>
             <version>${dropwizard-metrics.version}</version>
         </dependency>
+        <dependency>
+              <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                  <version>2.3</version>
+              </dependency>
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-jvm</artifactId>
@@ -558,6 +569,11 @@
                     <logging>debug</logging>
                 </configuration>
                 <dependencies>
+                    <dependency>
+                            <groupId>org.hibernate.javax.persistence</groupId>
+                                <artifactId>hibernate-jpa-2.0-api</artifactId>
+                                    <version>1.0.1.Final</version>
+                                </dependency>
                     <dependency>
                         <groupId>org.javassist</groupId>
                         <artifactId>javassist</artifactId>

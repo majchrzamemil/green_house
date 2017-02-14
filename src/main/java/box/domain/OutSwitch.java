@@ -63,6 +63,25 @@ public class OutSwitch implements Serializable {
     public void setPinNumber(Integer pinNumber) {
         this.pinNumber = pinNumber;
     }
+    
+    public void turnOn() {
+     /*   if (pin == null) {
+            pin = GpioFactory.getInstance().provisionDigitalOutputPin(RaspiPinTools.getEnumFromInt(pinNumber), "name",
+                    PinState.LOW);
+            pin.setShutdownOptions(true, PinState.LOW);
+        }
+        pin.setState(false);
+*/
+    }
+
+    public void turnOff() {
+   /*     if (pin == null) {
+            pin = GpioFactory.getInstance().provisionDigitalOutputPin(RaspiPinTools.getEnumFromInt(pinNumber), "name",
+                    PinState.HIGH);
+            pin.setShutdownOptions(true, PinState.LOW);
+        }
+        pin.setState(true);*/
+    }
 
     @Override
     public boolean equals(Object o) {
