@@ -37,9 +37,9 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     public void initIt() {
         manager = greenHouseManagerRepository.findOne(START_PROFILE_SETTINGS);
         //Think about fans
-        for (OutSwitch fan : manager.getGreenHouse().getFans()) {
-            fan.turnOn();
-        }
+//        for (OutSwitch fan : manager.getGreenHouse().getFans()) {
+//            fan.turnOn();
+//        }
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
@@ -130,9 +130,9 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     @Override
     @Scheduled(fixedDelay = 1000)
     public void run() {
-        manageHumidity();
-        managePumps();
-        manageLights();
+//        manageHumidity();
+//        managePumps();
+//        manageLights();
 
     }
 
