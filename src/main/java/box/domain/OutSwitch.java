@@ -1,5 +1,9 @@
 package box.domain;
 
+import box.utils.RaspiPinTools;
+import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.PinState;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -7,6 +11,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import org.springframework.cloud.cloudfoundry.com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.springframework.cloud.cloudfoundry.com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * A OutSwitch.
@@ -29,7 +35,20 @@ public class OutSwitch implements Serializable {
     @NotNull
     @Column(name = "pin_number", nullable = false)
     private Integer pinNumber;
+    
+    @Transient
+    @JsonSerialize
+    @JsonDeserialize
+    private GpioPinDigitalOutput pin = null;
+    
+     public GpioPinDigitalOutput getPin() {
+        return pin;
+    }
 
+    public void setPin(GpioPinDigitalOutput pin) {
+        this.pin = pin;
+    }
+    
     public Long getId() {
         return id;
     }
@@ -65,22 +84,22 @@ public class OutSwitch implements Serializable {
     }
     
     public void turnOn() {
-     /*   if (pin == null) {
+           if (pin == null) {
             pin = GpioFactory.getInstance().provisionDigitalOutputPin(RaspiPinTools.getEnumFromInt(pinNumber), "name",
                     PinState.LOW);
             pin.setShutdownOptions(true, PinState.LOW);
         }
         pin.setState(false);
-*/
+
     }
 
     public void turnOff() {
-   /*     if (pin == null) {
+        if (pin == null) {
             pin = GpioFactory.getInstance().provisionDigitalOutputPin(RaspiPinTools.getEnumFromInt(pinNumber), "name",
                     PinState.HIGH);
             pin.setShutdownOptions(true, PinState.LOW);
         }
-        pin.setState(true);*/
+        pin.setState(true);
     }
 
     @Override
