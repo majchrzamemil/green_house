@@ -26,7 +26,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
 
     private static final long START_PROFILE_SETTINGS = 1011L;
     private static final int WRONG_VALUE = -999;
-    //private final Logger log = LoggerFactory.getLogger(GreenHouseManagerServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(GreenHouseManagerServiceImpl.class);
 
     @Inject
     private GreenHouseManagerRepository greenHouseManagerRepository;
@@ -36,6 +36,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     @PostConstruct
     public void initIt() {
         manager = greenHouseManagerRepository.findOne(START_PROFILE_SETTINGS);
+    log.debug(manager.getGreenHouse().toString());
         //Think about fans
 //        for (OutSwitch fan : manager.getGreenHouse().getFans()) {
 //            fan.turnOn();
@@ -130,7 +131,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     @Override
     @Scheduled(fixedDelay = 1000)
     public void run() {
-          manageHumidity();
+//          manageHumidity();
 //        managePumps();
 //        manageLights();
 
