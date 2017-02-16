@@ -40,21 +40,21 @@ public class GreenHouse implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "plants_id", referencedColumnName = "id"))
     private Set<Plant> plants = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "green_house_pumps",
             joinColumns = @JoinColumn(name = "green_houses_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "pumps_id", referencedColumnName = "id"))
     private Set<OutSwitch> pumps = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "green_house_lights",
             joinColumns = @JoinColumn(name = "green_houses_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "lights_id", referencedColumnName = "id"))
     private Set<OutSwitch> lights = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "green_house_fans",
             joinColumns = @JoinColumn(name = "green_houses_id", referencedColumnName = "id"),
