@@ -131,7 +131,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     @Override
     @Scheduled(fixedDelay = 1000)
     public void run() {
-//          manageHumidity();
+//          man``ageHumidity();
 //        managePumps();
 //        manageLights();
 
