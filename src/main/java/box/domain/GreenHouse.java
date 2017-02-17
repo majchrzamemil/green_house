@@ -1,7 +1,5 @@
 package box.domain;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,7 +12,6 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "green_house")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class GreenHouse implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,28 +34,24 @@ public class GreenHouse implements Serializable {
     private OutSwitch humidifier;
 
     @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "green_house_plants",
                joinColumns = @JoinColumn(name="green_houses_id", referencedColumnName="id"),
                inverseJoinColumns = @JoinColumn(name="plants_id", referencedColumnName="id"))
     private Set<Plant> plants = new HashSet<>();
 
     @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "green_house_pumps",
                joinColumns = @JoinColumn(name="green_houses_id", referencedColumnName="id"),
                inverseJoinColumns = @JoinColumn(name="pumps_id", referencedColumnName="id"))
     private Set<OutSwitch> pumps = new HashSet<>();
 
     @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "green_house_lights",
                joinColumns = @JoinColumn(name="green_houses_id", referencedColumnName="id"),
                inverseJoinColumns = @JoinColumn(name="lights_id", referencedColumnName="id"))
     private Set<OutSwitch> lights = new HashSet<>();
 
     @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "green_house_fans",
                joinColumns = @JoinColumn(name="green_houses_id", referencedColumnName="id"),
                inverseJoinColumns = @JoinColumn(name="fans_id", referencedColumnName="id"))

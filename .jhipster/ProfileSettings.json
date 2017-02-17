@@ -55,7 +55,7 @@
             "fieldType": "Integer"
         }
     ],
-    "changelogDate": "20170215153052",
+    "changelogDate": "20170217163035",
     "entityTableName": "profile_settings",
     "dto": "no",
     "pagination": "no",

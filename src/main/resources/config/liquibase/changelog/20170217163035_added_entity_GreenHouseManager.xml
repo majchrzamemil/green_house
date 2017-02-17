@@ -16,7 +16,7 @@
     <!--
         Added the entity GreenHouseManager.
     -->
-    <changeSet id="20170215153052-1" author="jhipster">
+    <changeSet id="20170217163035-1" author="jhipster">
         <createTable tableName="green_house_manager">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>

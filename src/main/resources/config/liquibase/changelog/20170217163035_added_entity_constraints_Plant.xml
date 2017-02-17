@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Plant.
     -->
-    <changeSet id="20170215153052-2" author="jhipster">
+    <changeSet id="20170217163035-2" author="jhipster">
         
         <addForeignKeyConstraint baseColumnNames="humidity_id"
                                  baseTableName="plant"

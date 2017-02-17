@@ -35,15 +35,9 @@ spring:
         show-sql: true
         properties:
             hibernate.id.new_generator_mappings: true
-            hibernate.cache.use_second_level_cache: true
+            hibernate.cache.use_second_level_cache: false
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
-            hibernate.javax.cache.provider: org.ehcache.jsr107.EhcacheCachingProvider
-            hibernate.javax.cache.uri: ${spring.cache.jcache.config}
-            hibernate.cache.region.factory_class: io.github.jhipster.config.jcache.SpringCacheRegionFactory
-    cache:
-        jcache:
-            config: ehcache.xml
     mail:
         host: localhost
         port: 25
@@ -67,13 +61,10 @@ server:
 # ===================================================================
 
 jhipster:
-    cache: # Cache configuration
-        ehcache: # Hibernate 2nd level cache
-            max-bytes-local-heap: 16M
     security:
         remember-me:
             # security key (this key should be unique for your application, and kept secret)
-            key: 2b9d93539662e09dc456809623c9cebdadd489ec
+            key: eafef740f022ac1196aa86dde402da8448658f2b
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: green_house@localhost
         base-url: http://127.0.0.1:8080

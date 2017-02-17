@@ -14,13 +14,12 @@ node {
     }
 
     stage('install tools') {
-        sh "./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v6.9.4 -DnpmVersion=3.10.9"
+        sh "./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-yarn -DnodeVersion=v6.9.4 -DyarnVersion=v0.19.1"
     }
 
-    stage('npm install') {
-        sh "./mvnw com.github.eirslett:frontend-maven-plugin:npm"
+    stage('yarn install') {
+        sh "./mvnw com.github.eirslett:frontend-maven-plugin:yarn"
     }
-
     stage('backend tests') {
         try {
             sh "./mvnw test"
