@@ -35,8 +35,8 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
 
     @PostConstruct
     public void initIt() {
-        manager = greenHouseManagerRepository.findOne(START_PROFILE_SETTINGS);
-    log.debug(manager.getGreenHouse().toString());
+//        manager = greenHouseManagerRepository.findOne(START_PROFILE_SETTINGS);
+//    log.debug(manager.getGreenHouse().toString());
         //Think about fans
      //   for (OutSwitch fan : manager.getGreenHouse().getFans()) {
        //     fan.turnOn();
@@ -65,7 +65,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     private void managePumps() {
         boolean wattering = true;
         double soilHumidity;
-        //DEAL WITH THIS FUCKING IOEXCEPTION        
+        //DEAL WITH THIS FUCKING IOEXCEPTION
         try {
             for (Plant plant : manager.getGreenHouse().getPlants()) {
                 //NOW IT WORKS BUT IF U WANT TO ADD MORE SENSORS RETHINK THIS WHOLE IDEA
@@ -131,9 +131,9 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     @Override
     @Scheduled(fixedDelay = 1000)
     public void run() {
-          manageHumidity();//        managePumps();
-        managePumps();
-        manageLights();
+//          manageHumidity();//        managePumps();
+//        managePumps();
+//        manageLights();
 
     }
 
