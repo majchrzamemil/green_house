@@ -48,7 +48,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
         double humidity = RaspiPinTools.getHumidity(manager.getGreenHouse().getTemperature().getPinNumber());
         //FOR DEBUGING OPITONS
         double temperature = RaspiPinTools.getTemperature(manager.getGreenHouse().getTemperature().getPinNumber());
-     //   log.debug("Humidity read: " + humidity + ", temperature: " + temperature);
+        log.debug("Humidity read: " + humidity + ", temperature: " + temperature);
         if (humidity != WRONG_VALUE) {
             if (humidity < manager.getSettings().getMinHumidity()) {
        //         log.debug("HUMIDITY ON");
