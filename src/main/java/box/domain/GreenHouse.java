@@ -33,7 +33,7 @@ public class GreenHouse implements Serializable {
     @JoinColumn(unique = true)
     private OutSwitch humidifier;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "green_house_plants",
             joinColumns = @JoinColumn(name = "green_houses_id", referencedColumnName = "id"),
