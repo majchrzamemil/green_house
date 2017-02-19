@@ -5,27 +5,73 @@ body {
     background: #fafafa;
     font-family: "Oswald", Helvetica, Arial, sans-serif;
     // color: #333;
-    color: red;
+    color: $base-font-color;
+    position: relative;
 
     * {
         font-family: 'Oswald', sans-serif;
         font-weight: bold;
     }
+}
 
-    .navbar-default {
-        background-color: transparent;
-        border: none;
-    }
+a, a:hover, a:focus {
+    text-decoration: none;
+}
 
-    .navbar-header {
-        display: none;
-    }
+a:focus {
+    outline: none;
+}
 
-    .ribbon {
-        display: none;
-    }
+h1 {
+    font-size: 130px;
+    color: $brand-primary;
+}
 
-    .navbar-default .navbar-nav > li > a {
-        color: white;
+.content {
+    height: 100%;
+}
+
+.navbar-default {
+    background-color: transparent;
+    border: none;
+}
+
+// .navbar-header {
+//     display: none;
+// }
+
+.ribbon {
+    display: none;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: white;
+}
+
+
+.modal-backdrop {
+        &.in {
+            opacity: .7;
+        }
+
+        -webkit-transition: opacity .1s ease-in-out;
+            -moz-transition: opacity .1s ease-in-out;
+            -ms-transition: opacity .1s ease-in-out;
+            -o-transition: opacity .1s ease-in-out;
+}
+
+.modal-content {
+    background-color: transparent;
+}
+
+
+
+
+
+
+
+@media (min-width: 992px) {
+    html, body {
+        height: 100%;
     }
 }
