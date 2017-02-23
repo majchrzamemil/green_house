@@ -19,6 +19,7 @@ import org.springframework.context.event.EventListener;
 import box.service.GreenHouseManagerService;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.logging.Level;
 
 @Service
 @Transactional
@@ -26,6 +27,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
 
     private static final long START_PROFILE_SETTINGS = 1251L;
     private static final int WRONG_VALUE = -999;
+    private static final String TAKE_PHOTO_SCRIPT = "./scripts/take_picture.sh";
     private final Logger log = LoggerFactory.getLogger(GreenHouseManagerServiceImpl.class);
 
     @Inject
@@ -131,10 +133,22 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     @Override
     @Scheduled(fixedDelay = 1000)
     public void run() {
-          manageHumidity();//        managePumps();
+        manageHumidity();//        managePumps();
         managePumps();
         manageLights();
 
+    }
+    
+    @Override
+    @Scheduled(cron = "0 0 0/4 * * *")
+    public void takePicture(){
+ //HANDLE EXCEPTION
+        try {
+            Runtime.getRuntime().exec(TAKE_PHOTO_SCRIPT);
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(GreenHouseManagerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     @Override
