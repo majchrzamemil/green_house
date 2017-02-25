@@ -27,7 +27,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
 
     private static final long START_PROFILE_SETTINGS = 1251L;
     private static final int WRONG_VALUE = -999;
-    private static final String TAKE_PHOTO_SCRIPT = "./scripts/take_picture.sh";
+    private static final String TAKE_PHOTO_SCRIPT = "sudo /home/pi/green_house/src/main/scripts/take_picture.sh";
     private final Logger log = LoggerFactory.getLogger(GreenHouseManagerServiceImpl.class);
 
     @Inject
@@ -143,6 +143,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     @Scheduled(cron = "0 0 0/4 * * *")
     public void takePicture(){
  //HANDLE EXCEPTION
+    log.debug("taking picture");
         try {
             Runtime.getRuntime().exec(TAKE_PHOTO_SCRIPT);
         } catch (IOException ex) {
