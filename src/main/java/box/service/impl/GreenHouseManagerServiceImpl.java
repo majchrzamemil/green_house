@@ -17,6 +17,7 @@ import box.domain.ProfileSettings;
 import box.utils.RaspiPinTools;
 import org.springframework.context.event.EventListener;
 import box.service.GreenHouseManagerService;
+import box.utils.Dht11Container;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -29,6 +30,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     private static final int WRONG_VALUE = -999;
     private static final String TAKE_PHOTO_SCRIPT = "sudo /home/pi/green_house/src/main/scripts/take_picture.sh";
     private final Logger log = LoggerFactory.getLogger(GreenHouseManagerServiceImpl.class);
+    private static Dht11Container humAndTemp;
 
     @Inject
     private GreenHouseManagerRepository greenHouseManagerRepository;
@@ -47,15 +49,14 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     private void manageHumidity() {
-        double humidity = RaspiPinTools.getHumidity(manager.getGreenHouse().getTemperature().getPinNumber());
+        humAndTemp = RaspiPinTools.getTemperatureAndHumidity(manager.getGreenHouse().getTemperature().getPinNumber());
         //FOR DEBUGING OPITONS
-        double temperature = RaspiPinTools.getTemperature(manager.getGreenHouse().getTemperature().getPinNumber());
-        log.debug("Humidity read: " + humidity + ", temperature: " + temperature);
-        if (humidity != WRONG_VALUE) {
-            if (humidity < manager.getSettings().getMinHumidity()) {
+        log.debug("Humidity read: " + humAndTemp.getHumidity() + ", temperature: " + humAndTemp.getTemperature());
+        if (humAndTemp.getHumidity() != WRONG_VALUE) {
+            if (humAndTemp.getHumidity() < manager.getSettings().getMinHumidity()) {
        //         log.debug("HUMIDITY ON");
                 manager.getGreenHouse().getHumidifier().turnOn();
-            } else if (humidity >= manager.getSettings().getMaxHumidity()) {
+            } else if (humAndTemp.getHumidity() >= manager.getSettings().getMaxHumidity()) {
          //       log.debug("HUMIDITY OFF");
 
                 manager.getGreenHouse().getHumidifier().turnOff();
