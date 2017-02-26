@@ -40,20 +40,36 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/websocket/tracker")
-            .setHandshakeHandler(new DefaultHandshakeHandler() {
-                @Override
-                protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
-                    Principal principal = request.getPrincipal();
-                    if (principal == null) {
-                        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                        authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ANONYMOUS));
-                        principal = new AnonymousAuthenticationToken("WebsocketConfiguration", "anonymous", authorities);
+                .setHandshakeHandler(new DefaultHandshakeHandler() {
+                    @Override
+                    protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
+                        Principal principal = request.getPrincipal();
+                        if (principal == null) {
+                            Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+                            authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ANONYMOUS));
+                            principal = new AnonymousAuthenticationToken("WebsocketConfiguration", "anonymous", authorities);
+                        }
+                        return principal;
                     }
-                    return principal;
-                }
-            })
-            .withSockJS()
-            .setInterceptors(httpSessionHandshakeInterceptor());
+                })
+                .withSockJS()
+                .setInterceptors(httpSessionHandshakeInterceptor());
+
+        registry.addEndpoint("/websocket/tempAndHum")
+//                .setHandshakeHandler(new DefaultHandshakeHandler() {
+//            @Override
+//            protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
+//                Principal principal = request.getPrincipal();
+//                if (principal == null) {
+//                    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+//                    authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ANONYMOUS));
+//                    principal = new AnonymousAuthenticationToken("WebsocketConfiguration", "anonymous", authorities);
+//                }
+//                return principal;
+//            }
+//        })
+                .withSockJS();
+        //.setInterceptors(httpSessionHandshakeInterceptor());
     }
 
     @Bean

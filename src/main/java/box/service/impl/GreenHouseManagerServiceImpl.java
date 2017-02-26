@@ -17,8 +17,13 @@ import box.domain.ProfileSettings;
 import box.utils.RaspiPinTools;
 import org.springframework.context.event.EventListener;
 import box.service.GreenHouseManagerService;
+import box.utils.Dht11Container;
+import box.web.websocket.GreenHouseServiceWS;
 import java.io.IOException;
 import java.util.Iterator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 @Service
 @Transactional
@@ -27,7 +32,10 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     private static final long START_PROFILE_SETTINGS = 1251L;
     private static final int WRONG_VALUE = -999;
     private final Logger log = LoggerFactory.getLogger(GreenHouseManagerServiceImpl.class);
-
+    
+    @Autowired
+    private SimpMessagingTemplate template;
+    
     @Inject
     private GreenHouseManagerRepository greenHouseManagerRepository;
 
@@ -38,8 +46,8 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
 //        manager = greenHouseManagerRepository.findOne(START_PROFILE_SETTINGS);
 //    log.debug(manager.getGreenHouse().toString());
         //Think about fans
-     //   for (OutSwitch fan : manager.getGreenHouse().getFans()) {
-       //     fan.turnOn();
+        //   for (OutSwitch fan : manager.getGreenHouse().getFans()) {
+        //     fan.turnOn();
         //}
     }
 
@@ -51,10 +59,10 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
         log.debug("Humidity read: " + humidity + ", temperature: " + temperature);
         if (humidity != WRONG_VALUE) {
             if (humidity < manager.getSettings().getMinHumidity()) {
-       //         log.debug("HUMIDITY ON");
+                //         log.debug("HUMIDITY ON");
                 manager.getGreenHouse().getHumidifier().turnOn();
             } else if (humidity >= manager.getSettings().getMaxHumidity()) {
-         //       log.debug("HUMIDITY OFF");
+                //       log.debug("HUMIDITY OFF");
 
                 manager.getGreenHouse().getHumidifier().turnOff();
             }
@@ -131,10 +139,12 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     @Override
     @Scheduled(fixedDelay = 1000)
     public void run() {
+        template.convertAndSend("/topic/tempAndHum", new Dht11Container(1,2));
+//                        publisher.publishEvent(new Dht11Container(10,15));
+
 //          manageHumidity();//        managePumps();
 //        managePumps();
 //        manageLights();
-
     }
 
     @Override

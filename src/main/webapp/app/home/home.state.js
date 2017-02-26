@@ -26,7 +26,13 @@
                     $translatePartialLoader.addPart('home');
                     return $translate.refresh();
                 }]
-            }
+            },onEnter: ['HumAndTempService', function(HumAndTempService) {
+                    console.log("dadsadas");
+                HumAndTempService.subscribe();
+            }], onExit: ['HumAndTempService', function(HumAndTempService) {
+                HumAndTempService.unsubscribe();
+            }]
+            
         });
     }
 })();
