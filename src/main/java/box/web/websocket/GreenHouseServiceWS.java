@@ -41,6 +41,12 @@ public class GreenHouseServiceWS implements ApplicationListener<SessionDisconnec
         log.debug("Sending hum and temp");
         return container;
     }
+    
+    @SendTo("/topic/exception")
+    public String reportError(String errorMessage){
+        log.debug("ERROR: " + errorMessage);
+        return errorMessage;
+    }
 
     @Override
     public void onApplicationEvent(SessionDisconnectEvent e) {

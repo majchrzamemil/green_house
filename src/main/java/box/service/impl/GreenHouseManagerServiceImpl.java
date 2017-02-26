@@ -31,15 +31,19 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 @Transactional
 public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
 
-    private static final long START_PROFILE_SETTINGS = 1251L;
     private static final int WRONG_VALUE = -999;
+    private static final int ERROR_COUNTER = 50;
     private static final String TAKE_PHOTO_SCRIPT = "sudo /home/pi/green_house/src/main/scripts/take_picture.sh";
     private final Logger log = LoggerFactory.getLogger(GreenHouseManagerServiceImpl.class);
     private static Dht11Container humAndTemp;
+    private static Dht11Container previousHumAndTemp;
+    private static int humidityNotChangingCounter = 0;
+    private static int soilhumidityNotChangingCounter = 0;
+    private static double previousSoilHum;
 
     @Autowired
     private SimpMessagingTemplate template;
-    
+
     @Inject
     private GreenHouseManagerRepository greenHouseManagerRepository;
 
@@ -47,12 +51,8 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
 
     @PostConstruct
     public void initIt() {
-        manager = greenHouseManagerRepository.findOne(START_PROFILE_SETTINGS);
-//    log.debug(manager.getGreenHouse().toString());
-        //Think about fans
-        //   for (OutSwitch fan : manager.getGreenHouse().getFans()) {
-        //     fan.turnOn();
-        //}
+        manager = greenHouseManagerRepository.findAll().get(0);
+
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
@@ -62,10 +62,15 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
         log.debug("Humidity read: " + humAndTemp.getHumidity() + ", temperature: " + humAndTemp.getTemperature());
         if (humAndTemp.getHumidity() != WRONG_VALUE) {
             if (humAndTemp.getHumidity() < manager.getSettings().getMinHumidity()) {
-       //         log.debug("HUMIDITY ON");
-                manager.getGreenHouse().getHumidifier().turnOn();
+                if (Math.abs(humAndTemp.getHumidity() - previousHumAndTemp.getHumidity()) <= 2) {
+                    humidityNotChangingCounter++;
+                }
+                previousHumAndTemp = humAndTemp;
+                if (humidityNotChangingCounter < ERROR_COUNTER) {
+                    manager.getGreenHouse().getHumidifier().turnOn();
+                }
             } else if (humAndTemp.getHumidity() >= manager.getSettings().getMaxHumidity()) {
-         //       log.debug("HUMIDITY OFF");
+                humidityNotChangingCounter = 0;
                 manager.getGreenHouse().getHumidifier().turnOff();
             }
         }
@@ -75,14 +80,21 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     private void managePumps() {
         boolean wattering = true;
         double soilHumidity;
-        //DEAL WITH THIS FUCKING IOEXCEPTION
         try {
             for (Plant plant : manager.getGreenHouse().getPlants()) {
                 //NOW IT WORKS BUT IF U WANT TO ADD MORE SENSORS RETHINK THIS WHOLE IDEA
+                //Hardcoded first plant
                 soilHumidity = RaspiPinTools.getSoilHumidity(1);
                 if (soilHumidity < manager.getSettings().getMinGrounHumidity()) {
-                    wattering = true;
+                    if (Math.abs(previousSoilHum - soilHumidity) <= 2) {
+                        soilhumidityNotChangingCounter++;
+                    }
+                    if (soilhumidityNotChangingCounter < ERROR_COUNTER) {
+                        wattering = true;
+                        previousSoilHum = soilHumidity;
+                    }
                 } else if (soilHumidity > manager.getSettings().getMaxGroundHumidity()) {
+                    soilhumidityNotChangingCounter = 0;
                     wattering = false;
                 }
                 for (OutSwitch pump : manager.getGreenHouse().getLights()) {
@@ -96,7 +108,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
             }
         } catch (IOException e) {
             //AGAIN DEAL IN NORMAL WAY WITH THIS EXCEPTION
-            //log.error("IOEXCEPTION FROM SOIL HUMIDITY READ");
+            log.error("IOEXCEPTION FROM SOIL HUMIDITY READ");
         }
 
     }
@@ -138,26 +150,57 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
         return true;
     }
 
+    private void handleTemparature() {
+        if (humAndTemp.getTemperature() < manager.getSettings().getMinTemperature()) {
+            template.convertAndSend("/topic/exceptions", "To low temperature!!!!");
+        } else if (humAndTemp.getTemperature() > manager.getSettings().getMaxTemperature()) {
+            template.convertAndSend("/topic/exceptions", "To high temperature!!!!");
+        }
+    }
+
+    private void handleHumidity() {
+        if (humidityNotChangingCounter > ERROR_COUNTER) {
+            template.convertAndSend("/topic/exceptions", "Humidity not rising!!!!");
+
+        }
+    }
+
+    private void handleSoilHumidity() {
+        if (soilhumidityNotChangingCounter > ERROR_COUNTER) {
+            template.convertAndSend("/topic/exceptions", "Soil humidity not rising!!!!");
+
+        }
+    }
+
+    private void sendStatistics() {
+        if (humAndTemp.getHumidity() != WRONG_VALUE && humAndTemp.getTemperature() != WRONG_VALUE) {
+            template.convertAndSend("/topic/tempAndHum", humAndTemp);
+        }
+    }
+
     @Override
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 5000)
     public void run() {
         manageHumidity();
         managePumps();
         manageLights();
-        template.convertAndSend("/topic/tempAndHum", humAndTemp);
+        sendStatistics();
+        handleHumidity();
+        handleSoilHumidity();
+        handleTemparature();
     }
-    
+
     @Override
     @Scheduled(cron = "0 0 0/4 * * *")
-    public void takePicture(){
- //HANDLE EXCEPTION
-    log.debug("taking picture");
+    public void takePicture() {
+        //HANDLE EXCEPTION
+        log.debug("taking picture");
         try {
             Runtime.getRuntime().exec(TAKE_PHOTO_SCRIPT);
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(GreenHouseManagerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     @Override
