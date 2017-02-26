@@ -21,6 +21,11 @@ import box.utils.Dht11Container;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.logging.Level;
+import java.io.IOException;
+import java.util.Iterator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 @Service
 @Transactional
@@ -32,6 +37,9 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     private final Logger log = LoggerFactory.getLogger(GreenHouseManagerServiceImpl.class);
     private static Dht11Container humAndTemp;
 
+    @Autowired
+    private SimpMessagingTemplate template;
+    
     @Inject
     private GreenHouseManagerRepository greenHouseManagerRepository;
 
@@ -40,10 +48,10 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     @PostConstruct
     public void initIt() {
         manager = greenHouseManagerRepository.findOne(START_PROFILE_SETTINGS);
-    log.debug(manager.getGreenHouse().toString());
+//    log.debug(manager.getGreenHouse().toString());
         //Think about fans
-     //   for (OutSwitch fan : manager.getGreenHouse().getFans()) {
-       //     fan.turnOn();
+        //   for (OutSwitch fan : manager.getGreenHouse().getFans()) {
+        //     fan.turnOn();
         //}
     }
 
@@ -58,7 +66,6 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
                 manager.getGreenHouse().getHumidifier().turnOn();
             } else if (humAndTemp.getHumidity() >= manager.getSettings().getMaxHumidity()) {
          //       log.debug("HUMIDITY OFF");
-
                 manager.getGreenHouse().getHumidifier().turnOff();
             }
         }
@@ -68,7 +75,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     private void managePumps() {
         boolean wattering = true;
         double soilHumidity;
-        //DEAL WITH THIS FUCKING IOEXCEPTION        
+        //DEAL WITH THIS FUCKING IOEXCEPTION
         try {
             for (Plant plant : manager.getGreenHouse().getPlants()) {
                 //NOW IT WORKS BUT IF U WANT TO ADD MORE SENSORS RETHINK THIS WHOLE IDEA
@@ -134,10 +141,10 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     @Override
     @Scheduled(fixedDelay = 1000)
     public void run() {
-        manageHumidity();//        managePumps();
+        manageHumidity();
         managePumps();
         manageLights();
-
+        template.convertAndSend("/topic/tempAndHum", humAndTemp);
     }
     
     @Override

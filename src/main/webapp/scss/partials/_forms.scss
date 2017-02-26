@@ -1,0 +1,18 @@
+form {
+	// label {
+	// 	color: $brand-primary;
+	// }
+	* {
+		color: $light-font-color;
+	}
+
+	input, button {
+		background-color: $brand-orange;
+		border-color: $brand-orange;
+	}
+}
+
+.alert-warning {
+	background-color: $brand-orange;
+	border-color: $brand-orange;
+}

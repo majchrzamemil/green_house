@@ -17,6 +17,8 @@ public class Dht11Container {
         this.humidity = humidity;
         this.temperature = temperature;
     }
+    
+    public Dht11Container(){}
 
     public double getHumidity() {
         return humidity;

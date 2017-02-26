@@ -16,7 +16,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher; 
 /**
  * REST controller for managing ProfileSettings.
  */
@@ -27,18 +28,23 @@ public class ProfileSettingsResource {
     private final Logger log = LoggerFactory.getLogger(ProfileSettingsResource.class);
 
     private static final String ENTITY_NAME = "profileSettings";
-        
+
     private final ProfileSettingsRepository profileSettingsRepository;
+    
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
     public ProfileSettingsResource(ProfileSettingsRepository profileSettingsRepository) {
         this.profileSettingsRepository = profileSettingsRepository;
     }
 
     /**
-     * POST  /profile-settings : Create a new profileSettings.
+     * POST /profile-settings : Create a new profileSettings.
      *
      * @param profileSettings the profileSettings to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new profileSettings, or with status 400 (Bad Request) if the profileSettings has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new profileSettings, or with status 400 (Bad Request) if the
+     * profileSettings has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/profile-settings")
@@ -50,17 +56,18 @@ public class ProfileSettingsResource {
         }
         ProfileSettings result = profileSettingsRepository.save(profileSettings);
         return ResponseEntity.created(new URI("/api/profile-settings/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /profile-settings : Updates an existing profileSettings.
+     * PUT /profile-settings : Updates an existing profileSettings.
      *
      * @param profileSettings the profileSettings to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated profileSettings,
-     * or with status 400 (Bad Request) if the profileSettings is not valid,
-     * or with status 500 (Internal Server Error) if the profileSettings couldnt be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * profileSettings, or with status 400 (Bad Request) if the profileSettings
+     * is not valid, or with status 500 (Internal Server Error) if the
+     * profileSettings couldnt be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/profile-settings")
@@ -71,15 +78,17 @@ public class ProfileSettingsResource {
             return createProfileSettings(profileSettings);
         }
         ProfileSettings result = profileSettingsRepository.save(profileSettings);
+        publisher.publishEvent(result);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, profileSettings.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, profileSettings.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /profile-settings : get all the profileSettings.
+     * GET /profile-settings : get all the profileSettings.
      *
-     * @return the ResponseEntity with status 200 (OK) and the list of profileSettings in body
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * profileSettings in body
      */
     @GetMapping("/profile-settings")
     @Timed
@@ -90,10 +99,11 @@ public class ProfileSettingsResource {
     }
 
     /**
-     * GET  /profile-settings/:id : get the "id" profileSettings.
+     * GET /profile-settings/:id : get the "id" profileSettings.
      *
      * @param id the id of the profileSettings to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the profileSettings, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * profileSettings, or with status 404 (Not Found)
      */
     @GetMapping("/profile-settings/{id}")
     @Timed
@@ -104,7 +114,7 @@ public class ProfileSettingsResource {
     }
 
     /**
-     * DELETE  /profile-settings/:id : delete the "id" profileSettings.
+     * DELETE /profile-settings/:id : delete the "id" profileSettings.
      *
      * @param id the id of the profileSettings to delete
      * @return the ResponseEntity with status 200 (OK)

@@ -186,3 +186,8 @@ gulp.task('build', ['clean'], function (cb) {
 });
 
 gulp.task('default', ['serve']);
+
+function swallowError (error) {
+  console.log(error.toString())
+  this.emit('end')
+}

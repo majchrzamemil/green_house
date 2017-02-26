@@ -1,0 +1,10 @@
+.login-modal {
+	background-color: $brand-secondary;
+	border-radius: 10px;
+
+	form {
+		button[type="submit"] {
+			margin-bottom: 50px;
+		}
+	}
+}

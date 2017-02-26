@@ -1,0 +1,14 @@
+.btn {
+	background-color: $brand-orange;
+	border-color: $brand-orange;
+	color: $base-font-color;
+	&:hover {
+		background-color: $brand-primary;
+		border-color: $brand-primary;
+	}
+
+	-webkit-transition: opacity .1s ease-in-out;
+    -moz-transition: opacity .1s ease-in-out;
+    -ms-transition: opacity .1s ease-in-out;
+    -o-transition: opacity .1s ease-in-out;
+}

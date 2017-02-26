@@ -1,14 +1,15 @@
-(function() {
+(function () {
     'use strict';
     /* globals SockJS, Stomp */
 
     angular
-        .module('greenHouseApp')
-        .factory('JhiTrackerService', JhiTrackerService);
+            .module('greenHouseApp')
+            .factory('HumAndTempService', HumAndTempService);
 
-    JhiTrackerService.$inject = ['$rootScope', '$window', '$cookies', '$http', '$q'];
+    HumAndTempService.$inject = ['$rootScope', '$window', '$cookies', '$http', '$q'];
 
-    function JhiTrackerService ($rootScope, $window, $cookies, $http, $q) {
+    function HumAndTempService($rootScope, $window, $cookies, $http, $q) {
+        console.log("hum and temp");
         var stompClient = null;
         var subscriber = null;
         var listener = $q.defer();
@@ -19,68 +20,66 @@
             connect: connect,
             disconnect: disconnect,
             receive: receive,
-            sendActivity: sendActivity,
             subscribe: subscribe,
             unsubscribe: unsubscribe
         };
 
         return service;
 
-        function connect () {
+        function connect() {
             //building absolute path so that websocket doesnt fail when deploying with a context path
             var loc = $window.location;
-            var url = '//' + loc.host + loc.pathname + 'websocket/tracker';
+            var url = '//' + loc.host + loc.pathname + 'websocket/tempAndHum';
             var socket = new SockJS(url);
             stompClient = Stomp.over(socket);
+
             var stateChangeStart;
             var headers = {};
             headers[$http.defaults.xsrfHeaderName] = $cookies.get($http.defaults.xsrfCookieName);
-            stompClient.connect(headers, function() {
+            console.log("connecting to humAndTemp")
+            stompClient.connect(headers, function () {
                 connected.resolve('success');
-                sendActivity();
-                if (!alreadyConnectedOnce) {
-                    stateChangeStart = $rootScope.$on('$stateChangeStart', function () {
-                        sendActivity();
-                    });
-                    alreadyConnectedOnce = true;
-                }
+                console.log(connected);
+
             });
+            sendActivity();
+
+
             $rootScope.$on('$destroy', function () {
-                if(angular.isDefined(stateChangeStart) && stateChangeStart !== null){
+                if (angular.isDefined(stateChangeStart) && stateChangeStart !== null) {
                     stateChangeStart();
                 }
             });
         }
-
-        function disconnect () {
+        function sendActivity() {
+            if (stompClient !== null && stompClient.connected) {
+                stompClient
+                        .send('/topic/abc',
+                                {},
+                                angular.toJson({}));
+            }
+        }
+        function disconnect() {
             if (stompClient !== null) {
                 stompClient.disconnect();
                 stompClient = null;
             }
         }
 
-        function receive () {
+        function receive() {
             return listener.promise;
         }
 
-        function sendActivity() {
-            if (stompClient !== null && stompClient.connected) {
-                stompClient
-                    .send('/topic/abc',
-                    {},
-                    angular.toJson({'page': $rootScope.toState.name}));
-            }
-        }
-
-        function subscribe () {
-            connected.promise.then(function() {
-                subscriber = stompClient.subscribe('/topic/tracker', function(data) {
+        function subscribe() {
+            connected.promise.then(function () {
+                subscriber = stompClient.subscribe('/topic/tempAndHum', function (data) {
+                    console.log("angular.fromJson(data.body)SUBSCRIBE");
                     listener.notify(angular.fromJson(data.body));
                 });
             }, null, null);
         }
 
-        function unsubscribe () {
+        function unsubscribe() {
             if (subscriber !== null) {
                 subscriber.unsubscribe();
             }

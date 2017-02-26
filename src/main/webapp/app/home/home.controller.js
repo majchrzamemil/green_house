@@ -5,11 +5,11 @@
         .module('greenHouseApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'HumAndTempService'];
 
-    function HomeController ($scope, Principal, LoginService, $state) {
+    function HomeController ($scope, Principal, LoginService, $state, HumAndTempService) {
         var vm = this;
-
+        console.log("controller");
         vm.account = null;
         vm.isAuthenticated = null;
         vm.login = LoginService.open;
@@ -18,6 +18,16 @@
             getAccount();
         });
 
+        HumAndTempService.connect();
+        HumAndTempService.receive().then(function(humAndTemp) {
+            console.log("humAndTemp");
+            showHumAndTemp(humAndTemp);
+        });
+            
+        function showHumAndTemp(humAndTemp){
+            console.log("dupa:   " + humAndTemp);
+        }
+        
         getAccount();
 
         function getAccount() {
