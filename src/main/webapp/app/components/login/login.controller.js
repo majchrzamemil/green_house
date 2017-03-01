@@ -54,6 +54,8 @@
                     var previousState = Auth.getPreviousState();
                     Auth.resetPreviousState();
                     $state.go(previousState.name, previousState.params);
+                } else {
+                    $state.go('green-housemySuffix');
                 }
             }).catch(function () {
                 vm.authenticationError = true;
