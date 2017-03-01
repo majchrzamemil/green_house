@@ -1,31 +1,35 @@
-<div ng-cloak class="homepage">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1 class="text-center">Green House</h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="col-md-8 col-md-offset-3">
-                    <a href="" ng-click="vm.login()">
-                        <div class="homepage-nouser homepage-nouser--signin">
-                            <div class="overlay"></div>
-                            <h2>Sign in</h2>
-                        </div>
-                    </a>
+<div ng-switch on="vm.isAuthenticated">
+    <div ng-cloak class="homepage" ng-switch-when="false">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="text-center">Green House</h1>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="col-md-8">
-                    <div class="homepage-nouser homepage-nouser--signup">
-                        <div class="overlay"></div>
-                        <h2>Sing up</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="col-md-8 col-md-offset-3">
+                        <a href="" ng-click="vm.login()">
+                            <div class="homepage-nouser homepage-nouser--signin">
+                                <div class="overlay"></div>
+                                <h2>Sign in</h2>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-8">
+                        <div class="homepage-nouser homepage-nouser--signup">
+                            <div class="overlay"></div>
+                            <h2>Sing up</h2>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div ng-switch-when="true"></div>
+</div>
 
         <!-- <div class="col-md-4">
             <span class="hipster img-responsive img-rounded"></span>
@@ -64,4 +68,3 @@
              <span data-translate="home.like">If you like JHipster, don't forget to give us a star on </span>&nbsp;<a href="https://github.com/jhipster/generator-jhipster" target="_blank" data-translate="home.github">Github</a>!
             </p>
         </div> -->
-    </div>
