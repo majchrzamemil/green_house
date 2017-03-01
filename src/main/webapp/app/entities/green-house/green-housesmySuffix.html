@@ -1,5 +1,73 @@
-<div>
-    <h2 data-translate="greenHouseApp.greenHouse.home.title">Green Houses</h2>
+<div class="dashboard">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <ul class="green-house-info">
+                    <li class="green-house-info--stat">
+                        <span data-translate="greenHouseApp.greenHouse.humidity">Humidity</span>:
+                        <span>{{greenHouse.humidity.id}}</span>
+                    </li>
+                    <li class="green-house-info--stat">
+                        <span data-translate="greenHouseApp.greenHouse.temperature">Temperature</span>:
+                        <span>{{greenHouse.temperature.id}}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-9">
+                <div class="green-house-photos">
+                    <div class="green-house-photos--item"><span>1</span></div>
+                    <div class="green-house-photos--item"><span>2</span></div>
+                    <div class="green-house-photos--item"><span>3</span></div>
+                    <div class="green-house-photos--item"><span>4</span></div>
+                    <div class="green-house-photos--item"><span>5</span></div>
+                    <div class="green-house-photos--item"><span>6</span></div>
+                    <div class="green-house-photos--item"><span>7</span></div>
+                    <div class="green-house-photos--item"><span>8</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="green-house-plants">
+                    <li class="green-house-plants--item">
+                        <img src="content/images/weed-login.jpg">
+                    </li>
+                    <li class="green-house-plants--item">
+                        <img src="content/images/weed-login.jpg">
+                    </li>
+                    <li class="green-house-plants--item">
+                        <img src="content/images/weed-login.jpg">
+                    </li>
+                    <li class="green-house-plants--item">
+                        <img src="content/images/weed-login.jpg">
+                    </li>
+                    <li class="green-house-plants--item">
+                        <img src="content/images/weed-login.jpg">
+                    </li>
+                    <li class="green-house-plants--item">
+                        <img src="content/images/weed-login.jpg">
+                    </li>
+                    <li class="green-house-plants--item">
+                        <img src="content/images/weed-login.jpg">
+                    </li>
+                    <li class="green-house-plants--item">
+                        <img src="content/images/weed-login.jpg">
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+    $('.green-house-photos').slick({
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1
+    });
+});
+</script>
+    <!-- <h2 data-translate="greenHouseApp.greenHouse.home.title">Green Houses</h2>
     <jhi-alert></jhi-alert>
     <div class="container-fluid">
         <div class="row">
@@ -7,14 +75,14 @@
                 <button class="btn btn-primary" ui-sref="green-housemySuffix.new" >
                     <span class="glyphicon glyphicon-plus"></span>
                     <span  data-translate="greenHouseApp.greenHouse.home.createLabel">
-                        dupa
+                        Create a new Green House
                     </span>
                 </button>
             </div>
         </div>
     </div>
-    <br/>
-    <div class="table-responsive">
+    <br/> -->
+    <!-- <div class="table-responsive">
         <table class="jh-table table table-striped">
             <thead>
                 <tr>
@@ -86,5 +154,4 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-</div>
+    </div> -->
