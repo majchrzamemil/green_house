@@ -79,12 +79,13 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     @Transactional(propagation = Propagation.SUPPORTS)
     private void managePumps() {
         boolean wattering = true;
-        double soilHumidity;
+        int soilHumidity;
         try {
             for (Plant plant : manager.getGreenHouse().getPlants()) {
                 //NOW IT WORKS BUT IF U WANT TO ADD MORE SENSORS RETHINK THIS WHOLE IDEA
                 //Hardcoded first plant
                 soilHumidity = RaspiPinTools.getSoilHumidity(1);
+                log.debug("SOIL HUMIDITY: " + soilHumidity); 
                 if (soilHumidity < manager.getSettings().getMinGrounHumidity()) {
                     if (Math.abs(previousSoilHum - soilHumidity) <= 2) {
                         soilhumidityNotChangingCounter++;

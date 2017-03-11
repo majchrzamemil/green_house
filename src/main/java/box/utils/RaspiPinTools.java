@@ -21,7 +21,6 @@ public class RaspiPinTools {
 
     private static final int MAXTIMINGS = 85;
     private static int[] dht11Data = {0, 0, 0, 0, 0};
-    private static SpiDevice spi = null;
     private static final byte INIT_CMD = (byte) 0xD0; // 11010000
 
     public static Pin getEnumFromInt(int pinNumber) {
@@ -112,8 +111,8 @@ public class RaspiPinTools {
 
     }
 
-    public static double getSoilHumidity(int chanel) throws IOException {
-        spi = SpiFactory.getInstance(SpiChannel.CS0,
+    public static int getSoilHumidity(int chanel) throws IOException {
+        SpiDevice spi = SpiFactory.getInstance(SpiChannel.CS0,
                 SpiDevice.DEFAULT_SPI_SPEED, // default spi speed 1 MHz
                 SpiDevice.DEFAULT_SPI_MODE); // default spi mode 0
 
@@ -124,7 +123,7 @@ public class RaspiPinTools {
 
         byte[] result = spi.write(packet);
         int out = ((result[1] & 0x03) << 8) | (result[2] & 0xff);
-        double percentage = (double) out / 10.24;
+        int percentage = (int)((double)out / 10.24);
 
         return percentage;
     }
