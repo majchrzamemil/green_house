@@ -40,6 +40,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     private static int humidityNotChangingCounter = 0;
     private static int soilhumidityNotChangingCounter = 0;
     private static double previousSoilHum;
+    private static int counter = 0;
 
     @Autowired
     private SimpMessagingTemplate template;
@@ -67,10 +68,13 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
                 }
                 previousHumAndTemp = humAndTemp;
                 if (humidityNotChangingCounter < ERROR_COUNTER) {
+                    humAndTemp.setHumiditifierOn(true);
                     manager.getGreenHouse().getHumidifier().turnOn();
                 }
             } else if (humAndTemp.getHumidity() >= manager.getSettings().getMaxHumidity()) {
                 humidityNotChangingCounter = 0;
+                humAndTemp.setHumiditifierOn(false);
+
                 manager.getGreenHouse().getHumidifier().turnOff();
             }
         }
@@ -80,12 +84,14 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     private void managePumps() {
         boolean wattering = true;
         int soilHumidity;
+        double[] soilMoisture = new double[manager.getGreenHouse().getPlants().size()];
         try {
             for (Plant plant : manager.getGreenHouse().getPlants()) {
                 //NOW IT WORKS BUT IF U WANT TO ADD MORE SENSORS RETHINK THIS WHOLE IDEA
                 //Hardcoded first plant
                 soilHumidity = RaspiPinTools.getSoilHumidity(1);
-                log.debug("SOIL HUMIDITY: " + soilHumidity); 
+                log.debug("SOIL HUMIDITY: " + soilHumidity);
+                soilMoisture[counter] = soilHumidity;
                 if (soilHumidity < manager.getSettings().getMinGrounHumidity()) {
                     if (Math.abs(previousSoilHum - soilHumidity) <= 2) {
                         soilhumidityNotChangingCounter++;
@@ -98,6 +104,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
                     soilhumidityNotChangingCounter = 0;
                     wattering = false;
                 }
+
                 for (OutSwitch pump : manager.getGreenHouse().getLights()) {
                     if (wattering) {
                         pump.turnOn();
@@ -107,6 +114,9 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
                 }
 
             }
+            counter = 0;
+            humAndTemp.setSoilMoisture(soilMoisture);
+            humAndTemp.setPumpsOn(wattering);
         } catch (IOException e) {
             //AGAIN DEAL IN NORMAL WAY WITH THIS EXCEPTION
             log.error("IOEXCEPTION FROM SOIL HUMIDITY READ");
@@ -125,6 +135,8 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
                 light.turnOff();
             }
         }
+        humAndTemp.setLightsOn(lightsOn);
+        
     }
 
     //TODO FINISH THIS

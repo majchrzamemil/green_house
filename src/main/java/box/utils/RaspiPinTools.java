@@ -22,7 +22,7 @@ public class RaspiPinTools {
     private static final int MAXTIMINGS = 85;
     private static int[] dht11Data = {0, 0, 0, 0, 0};
     private static final byte INIT_CMD = (byte) 0xD0; // 11010000
-
+    private static SpiDevice spi = null;
     public static Pin getEnumFromInt(int pinNumber) {
 
         switch (pinNumber) {
@@ -112,12 +112,12 @@ public class RaspiPinTools {
     }
 
     public static int getSoilHumidity(int chanel) throws IOException {
-        SpiDevice spi = SpiFactory.getInstance(SpiChannel.CS0,
+         spi = SpiFactory.getInstance(SpiChannel.CS0,
                 SpiDevice.DEFAULT_SPI_SPEED, // default spi speed 1 MHz
                 SpiDevice.DEFAULT_SPI_MODE); // default spi mode 0
 
         byte packet[] = new byte[3];
-        packet[0] = 0x01;  // INIT_CMD;  // address byte
+        packet[0] = 0x01;  //INIT_CMD;  // address byte
         packet[1] = (byte) ((0x08 + chanel) << 4);  // singleEnded + channel
         packet[2] = 0x00;
 
