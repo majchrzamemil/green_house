@@ -9,7 +9,7 @@ package box.utils;
  *
  * @author emil
  */
-public class Dht11Container {
+public class BoxStatsContainer {
    private double humidity;
    private double temperature;
    private double[] soilMoisture;
@@ -17,7 +17,7 @@ public class Dht11Container {
    private boolean pumpsOn;
    private boolean humiditifierOn;
 
-    public Dht11Container(double humidity, double temperature, double[] soilMoisture, boolean lightsOn, boolean pumpsOn, boolean humiditifierOn) {
+    public BoxStatsContainer(double humidity, double temperature, double[] soilMoisture, boolean lightsOn, boolean pumpsOn, boolean humiditifierOn) {
         this.humidity = humidity;
         this.temperature = temperature;
         this.soilMoisture = soilMoisture;
@@ -58,13 +58,13 @@ public class Dht11Container {
         this.humiditifierOn = humiditifierOn;
     }
 
-    public Dht11Container(double humidity, double temperature, double[] soilMoisture) {
+    public BoxStatsContainer(double humidity, double temperature, double[] soilMoisture) {
         this.humidity = humidity;
         this.temperature = temperature;
         this.soilMoisture = soilMoisture;
     }
     
-    public Dht11Container(){}
+    public BoxStatsContainer(){}
 
     public double getHumidity() {
         return humidity;

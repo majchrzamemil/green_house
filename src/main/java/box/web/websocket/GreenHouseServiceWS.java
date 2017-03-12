@@ -22,7 +22,7 @@ import java.security.Principal;
 import java.util.Calendar;
 
 import static box.config.WebsocketConfiguration.IP_ADDRESS;
-import box.utils.Dht11Container;
+import box.utils.BoxStatsContainer;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -37,7 +37,7 @@ public class GreenHouseServiceWS implements ApplicationListener<SessionDisconnec
     private static final Logger log = LoggerFactory.getLogger(GreenHouseServiceWS.class);
 
     @SendTo("/topic/tempAndHum")
-    public Dht11Container sendTempAndHum(Dht11Container container){
+    public BoxStatsContainer sendTempAndHum(BoxStatsContainer container){
         log.debug("Sending hum and temp");
         return container;
     }

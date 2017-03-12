@@ -52,7 +52,7 @@ public class RaspiPinTools {
     }
 
     
-    public static Dht11Container getTemperatureAndHumidity(int pinNumber) {
+    public static BoxStatsContainer getTemperatureAndHumidity(int pinNumber) {
 
         int laststate = Gpio.HIGH;
         int j = 0;
@@ -104,9 +104,9 @@ public class RaspiPinTools {
             if ((dht11Data[2] & 0x80) != 0) {
                 c = -c;
             }
-            return new Dht11Container(h, c);
+            return new BoxStatsContainer(h, c);
         } else {
-            return new Dht11Container(-999, -999);
+            return new BoxStatsContainer(-999, -999);
         }
 
     }
