@@ -84,7 +84,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     private void managePumps() {
         boolean wattering = true;
         int soilHumidity;
-        double[] soilMoisture = new double[manager.getGreenHouse().getPlants().size()];
+        int[] soilMoisture = new int[manager.getGreenHouse().getPlants().size()];
         try {
             for (Plant plant : manager.getGreenHouse().getPlants()) {
                 //NOW IT WORKS BUT IF U WANT TO ADD MORE SENSORS RETHINK THIS WHOLE IDEA

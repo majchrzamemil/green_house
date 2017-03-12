@@ -12,12 +12,12 @@ package box.utils;
 public class BoxStatsContainer {
    private double humidity;
    private double temperature;
-   private double[] soilMoisture;
+   private int[] soilMoisture;
    private boolean lightsOn;
    private boolean pumpsOn;
    private boolean humiditifierOn;
 
-    public BoxStatsContainer(double humidity, double temperature, double[] soilMoisture, boolean lightsOn, boolean pumpsOn, boolean humiditifierOn) {
+    public BoxStatsContainer(double humidity, double temperature, int[] soilMoisture, boolean lightsOn, boolean pumpsOn, boolean humiditifierOn) {
         this.humidity = humidity;
         this.temperature = temperature;
         this.soilMoisture = soilMoisture;
@@ -26,11 +26,11 @@ public class BoxStatsContainer {
         this.humiditifierOn = humiditifierOn;
     }
 
-    public double[] getSoilMoisture() {
+    public int[] getSoilMoisture() {
         return soilMoisture;
     }
 
-    public void setSoilMoisture(double[] soilMoisture) {
+    public void setSoilMoisture(int[] soilMoisture) {
         this.soilMoisture = soilMoisture;
     }
 
@@ -58,10 +58,9 @@ public class BoxStatsContainer {
         this.humiditifierOn = humiditifierOn;
     }
 
-    public BoxStatsContainer(double humidity, double temperature, double[] soilMoisture) {
+    public BoxStatsContainer(double humidity, double temperature) {
         this.humidity = humidity;
         this.temperature = temperature;
-        this.soilMoisture = soilMoisture;
     }
     
     public BoxStatsContainer(){}
