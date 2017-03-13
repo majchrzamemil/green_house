@@ -1,5 +1,6 @@
 package box.service.impl;
 
+import com.pi4j.io.gpio.PinState;
 import box.domain.GreenHouseManager;
 import box.domain.OutSwitch;
 import box.repository.GreenHouseManagerRepository;
@@ -54,7 +55,15 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     @Transactional(propagation = Propagation.SUPPORTS)
     private void manageHumidity() {
         humAndTemp = RaspiPinTools.getTemperatureAndHumidity(manager.getGreenHouse().getTemperature().getPinNumber());
-        humAndTemp.setHumidifierOn(true);
+        //TODO: Make it better(working).
+        if(manager.getGreenHouse().getHumidifier().getPin() != null){
+        log.debug("not null");
+          if(manager.getGreenHouse().getHumidifier().getPin().getState().isHigh()){
+          humAndTemp.setHumidifierOn(false);
+        } else {
+          humAndTemp.setHumidifierOn(true);
+        }
+        }
         //FOR DEBUGING OPITONS
         log.debug("Humidity read: " + humAndTemp.getHumidity() + ", temperature: " + humAndTemp.getTemperature());
         if (humAndTemp.getHumidity() != WRONG_VALUE) {
@@ -67,6 +76,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
                 }
                 previousHumAndTemp = humAndTemp;
               if (humidityNotChangingCounter < ERROR_COUNTER) {
+                    humAndTemp.setHumidifierOn(true);
                     manager.getGreenHouse().getHumidifier().turnOn();
                 } else { 
                 humAndTemp.setHumidifierOn(false);
@@ -78,7 +88,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
                 humAndTemp.setHumidifierOn(false);
 
                 manager.getGreenHouse().getHumidifier().turnOff();
-            }
+            }             
         }
     }
 
