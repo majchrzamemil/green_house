@@ -31,7 +31,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     private static final String TAKE_PHOTO_SCRIPT = "sudo /home/pi/green_house/src/main/scripts/take_picture.sh";
     private final Logger log = LoggerFactory.getLogger(GreenHouseManagerServiceImpl.class);
     private static BoxStatsContainer humAndTemp;
-    private static BoxStatsContainer previousHumAndTemp;
+    private static BoxStatsContainer previousHumAndTemp = null;
     private static int humidityNotChangingCounter = 0;
     private static int soilhumidityNotChangingCounter = 0;
     private static double previousSoilHum;
@@ -54,18 +54,25 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     @Transactional(propagation = Propagation.SUPPORTS)
     private void manageHumidity() {
         humAndTemp = RaspiPinTools.getTemperatureAndHumidity(manager.getGreenHouse().getTemperature().getPinNumber());
+        humAndTemp.setHumidifierOn(true);
         //FOR DEBUGING OPITONS
         log.debug("Humidity read: " + humAndTemp.getHumidity() + ", temperature: " + humAndTemp.getTemperature());
         if (humAndTemp.getHumidity() != WRONG_VALUE) {
+            if(previousHumAndTemp == null) {
+              previousHumAndTemp = humAndTemp;
+            }
             if (humAndTemp.getHumidity() < manager.getSettings().getMinHumidity()) {
                 if (Math.abs(humAndTemp.getHumidity() - previousHumAndTemp.getHumidity()) <= 2) {
                     humidityNotChangingCounter++;
                 }
                 previousHumAndTemp = humAndTemp;
-              //if (humidityNotChangingCounter < ERROR_COUNTER) {
-                    humAndTemp.setHumidifierOn(true);
+              if (humidityNotChangingCounter < ERROR_COUNTER) {
                     manager.getGreenHouse().getHumidifier().turnOn();
-             //   }
+                } else { 
+                humAndTemp.setHumidifierOn(false);
+
+                manager.getGreenHouse().getHumidifier().turnOff();
+                }
             } else if (humAndTemp.getHumidity() >= manager.getSettings().getMaxHumidity()) {
                 humidityNotChangingCounter = 0;
                 humAndTemp.setHumidifierOn(false);

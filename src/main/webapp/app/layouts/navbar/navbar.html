@@ -33,7 +33,7 @@
                             </span>
                         </a>
                         <ul class="dropdown-menu" uib-dropdown-menu>
-                            <li ng-if="vm.isAdmin "ui-sref-active="active">
+                            <li ng-if="notShownForNow" ui-sref-active="active">
                                 <a ui-sref="green-housemySuffix" ng-click="vm.collapseNavbar()">
                                     <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
                                     <span data-translate="global.menu.entities.greenHousemySuffix">Green Housemy Suffix</span>
