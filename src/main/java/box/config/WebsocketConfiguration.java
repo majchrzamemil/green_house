@@ -24,6 +24,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
+/**
+ * Configuration for WebSockets
+ * @author emil
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfigurer {
@@ -32,11 +36,19 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
 
     public static final String IP_ADDRESS = "IP_ADDRESS";
 
+    /**
+     * Enables message broker.
+     * @param config 
+     */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic");
     }
 
+    /**
+     * Adds WS endpoints to registry
+     * @param registry 
+     */
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/websocket/tracker")
