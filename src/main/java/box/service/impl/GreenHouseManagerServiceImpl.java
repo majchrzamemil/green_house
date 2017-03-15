@@ -63,12 +63,12 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
                 }
                 previousHumAndTemp = humAndTemp;
                 if (humidityNotChangingCounter < ERROR_COUNTER) {
-                    humAndTemp.setHumiditifierOn(true);
+                    humAndTemp.setHumidifierOn(true);
                     manager.getGreenHouse().getHumidifier().turnOn();
                 }
             } else if (humAndTemp.getHumidity() >= manager.getSettings().getMaxHumidity()) {
                 humidityNotChangingCounter = 0;
-                humAndTemp.setHumiditifierOn(false);
+                humAndTemp.setHumidifierOn(false);
 
                 manager.getGreenHouse().getHumidifier().turnOff();
             }
