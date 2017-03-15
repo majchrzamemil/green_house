@@ -5,27 +5,30 @@
                 <ul class="green-house-info">
                     <li class="green-house-info--stat">
                         <span data-translate="greenHouseApp.greenHouse.humidity">Humidity</span>
-                        <span class="green-house-info--stat_value">70%</span>
-                        <span>{{greenHouse.humidity.id}}</span>
+                        <span class="green-house-info--stat_value">{{vm.humidity}}%</span>
+                        <!-- <span>{{greenHouse.humidity.id}}</span> -->
                     </li>
                     <li class="green-house-info--stat">
-                        <span data-translate="greenHouseApp.greenHouse.temperature">Temperature</span>
-                        <span class="green-house-info--stat_value">25°C</span>
+                        <span data-translate="greenHouseApp.greenHouse.temperature">{{vm.temperature}}</span>
+                        <span class="green-house-info--stat_value">{{vm.temperature}}°C</span>
                         <span>{{greenHouse.temperature.id}}</span>
                     </li>
                     <li class="green-house-info--stat">
-                        <span data-translate="greenHouseApp.greenHouse.humidifier">Lights</span>
-                        <span class="green-house-info--stat_value stat-switch">ON</span>
+                        <span data-translate="greenHouseApp.greenHouse.humidifier">Humidifier</span>
+                        <span class="green-house-info--stat_value stat-switch" ng-if="vm.humidifier == true">ON</span>
+                        <span class="green-house-info--stat_value stat-switch" ng-if="vm.humidifier == false">OFF</span>
                         <span>{{greenHouse.humidifier.id}}</span>
                     </li>
                     <li class="green-house-info--stat">
                         <span data-translate="greenHouseApp.greenHouse.pumps">Pumps</span>
-                        <span class="green-house-info--stat_value stat-switch">ON</span>
+                        <span class="green-house-info--stat_value stat-switch" ng-if="vm.pumps == true">ON</span>
+                        <span class="green-house-info--stat_value stat-switch" ng-if="vm.pumps == false">OFF</span>
                         <span>{{greenHouse.pumps.id}}</span>
                     </li>
                     <li class="green-house-info--stat">
                         <span data-translate="greenHouseApp.greenHouse.lights">Lights</span>
-                        <span class="green-house-info--stat_value stat-switch">ON</span>
+                        <span class="green-house-info--stat_value stat-switch" ng-if="vm.lights == true">ON</span>
+                        <span class="green-house-info--stat_value stat-switch" ng-if="vm.lights == false">OFF</span>
                         <span>{{greenHouse.lights.id}}</span>
                     </li>
                 </ul>
@@ -33,13 +36,13 @@
             <div class="col-sm-9">
                 <div class="green-house-photos">
                     <div class="green-house-photos--item">
-                        <img src="content/images/cam1.jpg">
+                        <img src="content/images/plant_pictures/cam1.jpg">
                     </div>
                     <div class="green-house-photos--item">
-                        <img src="content/images/cam2.jpg">
+                        <img src="content/images/plant_pictures/cam2.jpg">
                     </div>
                     <div class="green-house-photos--item">
-                        <img src="content/images/cam3.jpg">
+                        <img src="content/images/plant_pictures/cam3.jpg">
                     </div>
                 </div>
             </div>
@@ -47,45 +50,11 @@
         <div class="row">
             <div class="col-sm-12">
                 <ul class="green-house-plants">
-                    <li class="green-house-plants--item">
-                        <div class="item-bar item--humidity-bar">40%</div>
+
+                    <li ng-repeat="plantMoisture in vm.soilMoisture track by $index" class="green-house-plants--item">
+                        <div class="item-bar item--humidity-bar">{{ plantMoisture }}%</div>
                         <img src="content/images/weed-login.jpg">
-                        <div class="item-bar item--name-bar">White Widow</div>
-                    </li>
-                    <li class="green-house-plants--item">
-                    <div class="item-bar item--humidity-bar">39%</div>
-                        <img src="content/images/weed-login.jpg">
-                        <div class="item-bar item--name-bar">Sour Diesel</div>
-                    </li>
-                    <li class="green-house-plants--item">
-                    <div class="item-bar item--humidity-bar">38%</div>
-                        <img src="content/images/weed-login.jpg">
-                        <div class="item-bar item--name-bar">Purple Haze</div>
-                    </li>
-                    <li class="green-house-plants--item">
-                    <div class="item-bar item--humidity-bar">37%</div>
-                        <img src="content/images/weed-login.jpg">
-                        <div class="item-bar item--name-bar">Silver Haze</div>
-                    </li>
-                    <li class="green-house-plants--item">
-                    <div class="item-bar item--humidity-bar">36%</div>
-                        <img src="content/images/weed-login.jpg">
-                        <div class="item-bar item--name-bar">OG Kush</div>
-                    </li>
-                    <li class="green-house-plants--item">
-                    <div class="item-bar item--humidity-bar">35%</div>
-                        <img src="content/images/weed-login.jpg">
-                        <div class="item-bar item--name-bar">AK47</div>
-                    </li>
-                    <li class="green-house-plants--item">
-                    <div class="item-bar item--humidity-bar">34%</div>
-                        <img src="content/images/weed-login.jpg">
-                        <div class="item-bar item--name-bar">Pineapple Express</div>
-                    </li>
-                    <li class="green-house-plants--item">
-                    <div class="item-bar item--humidity-bar">40%</div>
-                        <img src="content/images/weed-login.jpg">
-                        <div class="item-bar item--name-bar">White Widow</div>
+                        <div class="item-bar item--name-bar">Plant {{ $index }}</div>
                     </li>
                 </ul>
             </div>
@@ -95,10 +64,10 @@
 <script>
     $(function () {
     $('.green-house-photos').slick({
-        infinite: true,
-        slidesToShow: 1,
-        slidesToScroll: 1
-    });
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1
+});
 });
 </script>
     <!-- <h2 data-translate="greenHouseApp.greenHouse.home.title">Green Houses</h2>

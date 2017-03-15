@@ -14,6 +14,7 @@
         vm.activities = [];
 
         JhiTrackerService.receive().then(null, null, function(activity) {
+            console.log('eeedfafadf');
             showActivity(activity);
         });
 
