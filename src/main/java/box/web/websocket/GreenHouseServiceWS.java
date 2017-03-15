@@ -28,6 +28,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.scheduling.annotation.Scheduled;
 
 /**
+ * Service responsible for WebSocket communication.
  *
  * @author emil
  */
@@ -36,21 +37,39 @@ public class GreenHouseServiceWS implements ApplicationListener<SessionDisconnec
 
     private static final Logger log = LoggerFactory.getLogger(GreenHouseServiceWS.class);
 
+    /**
+     * Sends container with box statistics to all subscribers to
+     * /topic/humAndTemp
+     *
+     * @param container
+     * @return container with Box statistics.
+     */
     @SendTo("/topic/tempAndHum")
-    public BoxStatsContainer sendTempAndHum(BoxStatsContainer container){
+    public BoxStatsContainer sendTempAndHum(BoxStatsContainer container) {
         log.debug("Sending hum and temp");
         return container;
     }
-    
+
+    /**
+     * Sends error message to all subscribers to /topic/exception
+     *
+     * @param errorMessage
+     * @return error message form exception.
+     */
     @SendTo("/topic/exception")
-    public String reportError(String errorMessage){
+    public String reportError(String errorMessage) {
         log.debug("ERROR: " + errorMessage);
         return errorMessage;
     }
 
+    /**
+     * Method invoked when session ends.
+     *
+     * @param e
+     */
     @Override
     public void onApplicationEvent(SessionDisconnectEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        log.error("Session closed: " + e.getSessionId());
     }
-            
+
 }

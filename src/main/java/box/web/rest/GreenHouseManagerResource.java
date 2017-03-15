@@ -15,6 +15,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 
 /**
  * REST controller for managing GreenHouseManager.
@@ -26,7 +28,10 @@ public class GreenHouseManagerResource {
     private final Logger log = LoggerFactory.getLogger(GreenHouseManagerResource.class);
 
     private static final String ENTITY_NAME = "greenHouseManager";
-        
+    
+    @Autowired
+    private ApplicationEventPublisher publisher;
+    
     private final GreenHouseManagerRepository greenHouseManagerRepository;
 
     public GreenHouseManagerResource(GreenHouseManagerRepository greenHouseManagerRepository) {
@@ -70,6 +75,7 @@ public class GreenHouseManagerResource {
             return createGreenHouseManager(greenHouseManager);
         }
         GreenHouseManager result = greenHouseManagerRepository.save(greenHouseManager);
+        publisher.publishEvent(greenHouseManager.getSettings());
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, greenHouseManager.getId().toString()))
             .body(result);

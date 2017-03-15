@@ -2,7 +2,6 @@ package box.service.impl;
 
 import box.domain.GreenHouseManager;
 import box.domain.OutSwitch;
-import box.domain.Plant;
 import box.repository.GreenHouseManagerRepository;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -19,13 +18,9 @@ import org.springframework.context.event.EventListener;
 import box.service.GreenHouseManagerService;
 import box.utils.BoxStatsContainer;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.io.IOException;
-import java.util.Iterator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+
 
 @Service
 @Transactional
@@ -84,12 +79,12 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     private void managePumps() {
         boolean wattering = true;
         int soilHumidity;
-        int[] soilMoisture = new int[manager.getGreenHouse().getPlants().size()];
+        final int plantsNumber = manager.getGreenHouse().getPlants().size();
+        int[] soilMoisture = new int[plantsNumber];
         try {
-            for (Plant plant : manager.getGreenHouse().getPlants()) {
-                //NOW IT WORKS BUT IF U WANT TO ADD MORE SENSORS RETHINK THIS WHOLE IDEA
-                //Hardcoded first plant
-                soilHumidity = RaspiPinTools.getSoilHumidity(1);
+            for (int i = 0; i < plantsNumber; i++) {
+                //chanel coresponding with place in collection
+                soilHumidity = RaspiPinTools.getSoilHumidity(i + 1);
                 log.debug("SOIL HUMIDITY: " + soilHumidity);
                 soilMoisture[counter] = soilHumidity;
                 if (soilHumidity < manager.getSettings().getMinGrounHumidity()) {
@@ -118,7 +113,6 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
             humAndTemp.setSoilMoisture(soilMoisture);
             humAndTemp.setPumpsOn(wattering);
         } catch (IOException e) {
-            //AGAIN DEAL IN NORMAL WAY WITH THIS EXCEPTION
             log.error("IOEXCEPTION FROM SOIL HUMIDITY READ");
         }
 
@@ -139,7 +133,6 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
         
     }
 
-    //TODO FINISH THIS
     private boolean checkLights() {
         DateTime time = new DateTime();
         if (manager.getSettings().getStartHour() > time.getHourOfDay()
@@ -206,12 +199,11 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     @Override
     @Scheduled(cron = "0 0 0/4 * * *")
     public void takePicture() {
-        //HANDLE EXCEPTION
         log.debug("taking picture");
         try {
             Runtime.getRuntime().exec(TAKE_PHOTO_SCRIPT);
         } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(GreenHouseManagerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            log.error("Taking photo filed");
         }
 
     }

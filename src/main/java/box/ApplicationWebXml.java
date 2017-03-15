@@ -23,6 +23,10 @@ import box.service.GreenHouseManagerService;
  */
 public class ApplicationWebXml extends SpringBootServletInitializer {
     
+    /**
+     * 
+     * @return instance of GreenHouseManagerService Bean 
+     */
     @Bean
     public GreenHouseManagerService greenHouseManagerServiceService() {
         return new GreenHouseManagerServiceImpl();

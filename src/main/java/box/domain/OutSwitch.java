@@ -36,6 +36,9 @@ public class OutSwitch implements Serializable {
     @Column(name = "pin_number", nullable = false)
     private Integer pinNumber;
     
+    /**
+     * Object corresponding to connected GPIO pin.  
+     */
     @Transient
     @JsonSerialize
     @JsonDeserialize
