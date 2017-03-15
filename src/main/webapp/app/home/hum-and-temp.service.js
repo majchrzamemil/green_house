@@ -57,12 +57,6 @@
             });
         }
         function sendActivity() {
-            if (stompClient !== null && stompClient.connected) {
-                stompClient
-                        .send('/topic/abc',
-                                {},
-                                angular.toJson({}));
-            }
         }
         function disconnect() {
             if (stompClient !== null) {
