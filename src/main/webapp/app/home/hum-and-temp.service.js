@@ -9,7 +9,6 @@
     HumAndTempService.$inject = ['$rootScope', '$window', '$cookies', '$http', '$q'];
 
     function HumAndTempService($rootScope, $window, $cookies, $http, $q) {
-        console.log("hum and temp");
         var stompClient = null;
         var subscriber = null;
         var listener = $q.defer();
@@ -19,6 +18,7 @@
         var service = {
             connect: connect,
             disconnect: disconnect,
+            sendActivity: sendActivity,
             receive: receive,
             subscribe: subscribe,
             unsubscribe: unsubscribe
@@ -32,7 +32,6 @@
             var url = '//' + loc.host + loc.pathname + 'websocket/tempAndHum';
             var socket = new SockJS(url);
             stompClient = Stomp.over(socket);
-
             var stateChangeStart;
             var headers = {};
             headers[$http.defaults.xsrfHeaderName] = $cookies.get($http.defaults.xsrfCookieName);
@@ -40,9 +39,15 @@
             stompClient.connect(headers, function () {
                 connected.resolve('success');
                 console.log(connected);
-
+                sendActivity();
+                if (!alreadyConnectedOnce) {
+                    stateChangeStart = $rootScope.$on('$stateChangeStart', function () {
+                        sendActivity();
+                    });
+                    alreadyConnectedOnce = true;
+                }
             });
-            sendActivity();
+            
 
 
             $rootScope.$on('$destroy', function () {
@@ -67,13 +72,14 @@
         }
 
         function receive() {
+            console.log('receive');
             return listener.promise;
         }
 
         function subscribe() {
             connected.promise.then(function () {
                 subscriber = stompClient.subscribe('/topic/tempAndHum', function (data) {
-                    console.log("angular.fromJson(data.body)SUBSCRIBE");
+                    // console.log("angular.fromJson(data.body)SUBSCRIBE");
                     listener.notify(angular.fromJson(data.body));
                 });
             }, null, null);
@@ -84,6 +90,10 @@
                 subscriber.unsubscribe();
             }
             listener = $q.defer();
+        }
+
+        function getHumidity() {
+            return this.humidity;
         }
     }
 })();

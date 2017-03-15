@@ -47,7 +47,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
 
     @PostConstruct
     public void initIt() {
-        manager = greenHouseManagerRepository.findAll().get(0);
+        // manager = greenHouseManagerRepository.findAll().get(0);
 
     }
 
@@ -179,6 +179,13 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     }
 
     private void sendStatistics() {
+        humAndTemp = new BoxStatsContainer();
+        humAndTemp.setLightsOn(true);
+        humAndTemp.setPumpsOn(false);
+        humAndTemp.setHumiditifierOn(true);
+        humAndTemp.setSoilMoisture(new int[]{55, 54, 53, 52, 51, 50, 49, 48});
+        humAndTemp.setHumidity(60);
+        humAndTemp.setTemperature(25);
         if (humAndTemp.getHumidity() != WRONG_VALUE && humAndTemp.getTemperature() != WRONG_VALUE) {
             template.convertAndSend("/topic/tempAndHum", humAndTemp);
         }
@@ -187,13 +194,13 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     @Override
     @Scheduled(fixedDelay = 5000)
     public void run() {
-        manageHumidity();
-        managePumps();
-        manageLights();
+        // manageHumidity();
+        // managePumps();
+        // manageLights();
         sendStatistics();
-        handleHumidity();
-        handleSoilHumidity();
-        handleTemparature();
+        // handleHumidity();
+        // handleSoilHumidity();
+        // handleTemparature();
     }
 
     @Override

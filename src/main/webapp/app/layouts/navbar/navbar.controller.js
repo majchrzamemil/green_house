@@ -5,13 +5,18 @@
         .module('greenHouseApp')
         .controller('NavbarController', NavbarController);
 
-    NavbarController.$inject = ['$state', 'Auth', 'Principal', 'ProfileService', 'LoginService'];
+    NavbarController.$inject = ['$scope', '$state', 'Auth', 'Principal', 'ProfileService', 'LoginService'];
 
-    function NavbarController ($state, Auth, Principal, ProfileService, LoginService) {
+    function NavbarController ($scope, $state, Auth, Principal, ProfileService, LoginService) {
         var vm = this;
 
         vm.isNavbarCollapsed = true;
         vm.isAuthenticated = Principal.isAuthenticated;
+        vm.account = null;
+        vm.isAdmin = null;
+        $scope.$on('authenticationSuccess', function() {
+            getAccount();
+        });
 
         ProfileService.getProfileInfo().then(function(response) {
             vm.inProduction = response.inProduction;
@@ -23,6 +28,23 @@
         vm.toggleNavbar = toggleNavbar;
         vm.collapseNavbar = collapseNavbar;
         vm.$state = $state;
+
+        getAccount();
+        checkIfAdminRole();
+
+        function getAccount() {
+            Principal.identity().then(function(account) {
+                vm.account = account;
+                vm.isAuthenticated = Principal.isAuthenticated;
+                console.log(account.authorities);
+                vm.isAdmin = account.authorities.includes('ROLE_ADMIN');
+                console.log(vm.isAdmin);
+            });
+        }
+
+        function checkIfAdminRole() {
+            
+        }
 
         function login() {
             collapseNavbar();

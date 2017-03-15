@@ -29,7 +29,14 @@
                     $translatePartialLoader.addPart('global');
                     return $translate.refresh();
                 }]
-            }
+            },
+            onEnter: ['HumAndTempService', function(HumAndTempService) {
+                    console.log("dadsadas");
+                HumAndTempService.subscribe();
+            }], onExit: ['HumAndTempService', function(HumAndTempService) {
+                HumAndTempService.unsubscribe();
+            }]
+
         })
         .state('green-housemySuffix-detail', {
             parent: 'green-housemySuffix',
