@@ -11,7 +11,8 @@
         var vm = this;
         console.log("controller");
         vm.account = null;
-        vm.isAuthenticated = null;
+        vm.isAuthenticated = Principal.isAuthenticated;
+        console.log(vm.isAuthenticated());
         vm.login = LoginService.open;
         vm.register = register;
         $scope.$on('authenticationSuccess', function() {
@@ -29,6 +30,10 @@
         }
         
         getAccount();
+
+        if(vm.isAuthenticated()) {
+            $state.go('green-housemySuffix');
+        }
 
         function getAccount() {
             Principal.identity().then(function(account) {
