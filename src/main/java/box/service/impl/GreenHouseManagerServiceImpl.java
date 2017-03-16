@@ -153,20 +153,24 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     private boolean checkLights() {
         DateTime time = new DateTime();
         if (manager.getSettings().getStartHour() > time.getHourOfDay()
-                && manager.getSettings().getEndHour() < time.getHourOfDay()) {
-
+                || manager.getSettings().getEndHour() < time.getHourOfDay()) {
+            log.debug("first condition: ");
             return false;
         }
         boolean start = manager.getSettings().getStartHour() == time.getHourOfDay();
-        if (start && manager.getSettings().getStartMinute() < time.getMinuteOfHour()) {
+        if (start && manager.getSettings().getStartMinute() > time.getMinuteOfHour()) {
+            log.debug("second condition: ");
             return false;
         }
         boolean end = manager.getSettings().getEndHour() == time.getHourOfDay();
-        if (start && manager.getSettings().getStartMinute() < time.getMinuteOfHour()) {
-            return false;
+        if (start && manager.getSettings().getEndMinute() < time.getMinuteOfHour()) {
+         
+            log.debug("third condition: ");
+          return false;
         }
-        if (start == end && manager.getSettings().getEndMinute() < time.getMinuteOfHour()
+        if (start == true && start == end && manager.getSettings().getEndMinute() < time.getMinuteOfHour()
                 || manager.getSettings().getStartMinute() > time.getMinuteOfHour()) {
+            log.debug("last condition: ");
             return false;
         }
 

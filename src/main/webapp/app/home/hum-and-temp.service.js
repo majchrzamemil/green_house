@@ -31,7 +31,7 @@
             var url = '//' + loc.host + loc.pathname + 'websocket/tempAndHum';
             var socket = new SockJS(url);
             stompClient = Stomp.over(socket);
-            setTimeout(function(){}, 2000);
+            setTimeout(function(){}, 2500);
             var stateChangeStart;
             var headers = {};
             headers[$http.defaults.xsrfHeaderName] = $cookies.get($http.defaults.xsrfCookieName);
