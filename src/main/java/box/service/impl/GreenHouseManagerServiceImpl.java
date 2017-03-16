@@ -17,11 +17,10 @@ import box.domain.ProfileSettings;
 import box.utils.RaspiPinTools;
 import org.springframework.context.event.EventListener;
 import box.service.GreenHouseManagerService;
-import box.utils.BoxStatsContainer;
+import box.web.websocket.dto.BoxStatsContainer;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-
 
 @Service
 @Transactional
@@ -56,39 +55,39 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     private void manageHumidity() {
         humAndTemp = RaspiPinTools.getTemperatureAndHumidity(manager.getGreenHouse().getTemperature().getPinNumber());
         //TODO: Make it better(working).
-        if(manager.getGreenHouse().getHumidifier().getPin() != null){
-        log.debug("not null");
-          if(manager.getGreenHouse().getHumidifier().getPin().getState().isHigh()){
-          humAndTemp.setHumidifierOn(false);
-        } else {
-          humAndTemp.setHumidifierOn(true);
-        }
+        if (manager.getGreenHouse().getHumidifier().getPin() != null) {
+            log.debug("not null");
+            if (manager.getGreenHouse().getHumidifier().getPin().getState().isHigh()) {
+                humAndTemp.setHumidifierOn(false);
+            } else {
+                humAndTemp.setHumidifierOn(true);
+            }
         }
         //FOR DEBUGING OPITONS
         log.debug("Humidity read: " + humAndTemp.getHumidity() + ", temperature: " + humAndTemp.getTemperature());
         if (humAndTemp.getHumidity() != WRONG_VALUE) {
-            if(previousHumAndTemp == null) {
-              previousHumAndTemp = humAndTemp;
+            if (previousHumAndTemp == null) {
+                previousHumAndTemp = humAndTemp;
             }
             if (humAndTemp.getHumidity() < manager.getSettings().getMinHumidity()) {
                 if (Math.abs(humAndTemp.getHumidity() - previousHumAndTemp.getHumidity()) <= 2) {
                     humidityNotChangingCounter++;
                 }
                 previousHumAndTemp = humAndTemp;
-              if (humidityNotChangingCounter < ERROR_COUNTER) {
+                if (humidityNotChangingCounter < ERROR_COUNTER) {
                     humAndTemp.setHumidifierOn(true);
                     manager.getGreenHouse().getHumidifier().turnOn();
-                } else { 
-                humAndTemp.setHumidifierOn(false);
+                } else {
+                    humAndTemp.setHumidifierOn(false);
 
-                manager.getGreenHouse().getHumidifier().turnOff();
+                    manager.getGreenHouse().getHumidifier().turnOff();
                 }
             } else if (humAndTemp.getHumidity() >= manager.getSettings().getMaxHumidity()) {
                 humidityNotChangingCounter = 0;
                 humAndTemp.setHumidifierOn(false);
 
                 manager.getGreenHouse().getHumidifier().turnOff();
-            }             
+            }
         }
     }
 
@@ -147,30 +146,25 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
             }
         }
         humAndTemp.setLightsOn(lightsOn);
-        
+
     }
 
     private boolean checkLights() {
         DateTime time = new DateTime();
         if (manager.getSettings().getStartHour() > time.getHourOfDay()
                 || manager.getSettings().getEndHour() < time.getHourOfDay()) {
-            log.debug("first condition: ");
             return false;
         }
         boolean start = manager.getSettings().getStartHour() == time.getHourOfDay();
         if (start && manager.getSettings().getStartMinute() > time.getMinuteOfHour()) {
-            log.debug("second condition: ");
             return false;
         }
         boolean end = manager.getSettings().getEndHour() == time.getHourOfDay();
         if (start && manager.getSettings().getEndMinute() < time.getMinuteOfHour()) {
-         
-            log.debug("third condition: ");
-          return false;
+            return false;
         }
         if (start == true && start == end && manager.getSettings().getEndMinute() < time.getMinuteOfHour()
                 || manager.getSettings().getStartMinute() > time.getMinuteOfHour()) {
-            log.debug("last condition: ");
             return false;
         }
 
