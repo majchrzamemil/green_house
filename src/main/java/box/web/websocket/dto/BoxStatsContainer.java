@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package box.utils;
+package box.web.websocket.dto;
 
 /**
  *
@@ -15,15 +15,15 @@ public class BoxStatsContainer {
    private int[] soilMoisture;
    private boolean lightsOn;
    private boolean pumpsOn;
-   private boolean humiditifierOn;
+   private boolean humidifierOn;
 
-    public BoxStatsContainer(double humidity, double temperature, int[] soilMoisture, boolean lightsOn, boolean pumpsOn, boolean humiditifierOn) {
+    public BoxStatsContainer(double humidity, double temperature, int[] soilMoisture, boolean lightsOn, boolean pumpsOn, boolean humidifierOn) {
         this.humidity = humidity;
         this.temperature = temperature;
         this.soilMoisture = soilMoisture;
         this.lightsOn = lightsOn;
         this.pumpsOn = pumpsOn;
-        this.humiditifierOn = humiditifierOn;
+        this.humidifierOn = humidifierOn;
     }
 
     public int[] getSoilMoisture() {
@@ -50,12 +50,12 @@ public class BoxStatsContainer {
         this.pumpsOn = pumpsOn;
     }
 
-    public boolean isHumiditifierOn() {
-        return humiditifierOn;
+    public boolean isHumidifierOn() {
+        return humidifierOn;
     }
 
-    public void setHumiditifierOn(boolean humiditifierOn) {
-        this.humiditifierOn = humiditifierOn;
+    public void setHumidifierOn(boolean humiditifierOn) {
+        this.humidifierOn = humiditifierOn;
     }
 
     public BoxStatsContainer(double humidity, double temperature) {

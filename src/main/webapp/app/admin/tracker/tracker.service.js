@@ -29,7 +29,7 @@
         function connect () {
             //building absolute path so that websocket doesnt fail when deploying with a context path
             var loc = $window.location;
-            var url = '//' + loc.host + loc.pathname + 'websocket/tempAndHum';
+            var url = '//' + loc.host + loc.pathname + 'websocket/exception';
             var socket = new SockJS(url);
             stompClient = Stomp.over(socket);
             var stateChangeStart;

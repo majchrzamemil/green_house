@@ -5,6 +5,7 @@
  */
 package box.utils;
 
+import box.web.websocket.dto.BoxStatsContainer;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.io.spi.SpiChannel;
@@ -95,7 +96,7 @@ public class RaspiPinTools {
         if ((j >= 40) && checkParity()) {
             float h = (float) ((dht11Data[0] << 8) + dht11Data[1]) / 10;
             if (h > 100) {
-                h = dht11Data[0];   // for DHT11
+                h = dht11Data[0];   
             }
             float c = (float) (((dht11Data[2] & 0x7F) << 8) + dht11Data[3]) / 10;
             if (c > 125) {
@@ -113,12 +114,12 @@ public class RaspiPinTools {
 
     public static int getSoilHumidity(int chanel) throws IOException {
          spi = SpiFactory.getInstance(SpiChannel.CS0,
-                SpiDevice.DEFAULT_SPI_SPEED, // default spi speed 1 MHz
-                SpiDevice.DEFAULT_SPI_MODE); // default spi mode 0
+                SpiDevice.DEFAULT_SPI_SPEED, 
+                SpiDevice.DEFAULT_SPI_MODE); 
 
         byte packet[] = new byte[3];
-        packet[0] = 0x01;  //INIT_CMD;  // address byte
-        packet[1] = (byte) ((0x08 + chanel) << 4);  // singleEnded + channel
+        packet[0] = 0x01;  
+        packet[1] = (byte) ((0x08 + chanel) << 4);  
         packet[2] = 0x00;
 
         byte[] result = spi.write(packet);

@@ -16,12 +16,12 @@
             "detail": {
                 "title": "Green House"
             },
-            "humidity": "Humidity",
-            "temperature": "Temperature",
-            "humidifier": "Humidifier",
-            "plants": "Plants",
-            "pumps": "Pumps",
-            "lights": "Lights",
+            "humidity": "Wilgotność",
+            "temperature": "Temperatura",
+            "humidifier": "Nawilżacz",
+            "plants": "Rośliny",
+            "pumps": "Pompy",
+            "lights": "Światła",
             "fans": "Fans"
         }
     }

@@ -26,7 +26,7 @@
         });
             
         function showHumAndTemp(humAndTemp){
-            console.log("dupa:   " + humAndTemp);
+            console.log(humAndTemp);
         }
         
         getAccount();
