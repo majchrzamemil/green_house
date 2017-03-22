@@ -5,6 +5,8 @@
  */
 package box.web.websocket.dto;
 
+import java.util.Vector;
+
 /**
  *
  * @author emil
@@ -16,7 +18,8 @@ public class BoxStatsContainer {
    private boolean lightsOn;
    private boolean pumpsOn;
    private boolean humidifierOn;
-
+   private Vector<String> photos;
+   
     public BoxStatsContainer(double humidity, double temperature, int[] soilMoisture, boolean lightsOn, boolean pumpsOn, boolean humidifierOn) {
         this.humidity = humidity;
         this.temperature = temperature;
@@ -24,6 +27,14 @@ public class BoxStatsContainer {
         this.lightsOn = lightsOn;
         this.pumpsOn = pumpsOn;
         this.humidifierOn = humidifierOn;
+    }
+    
+    public void setPhotos(Vector<String> photos){
+        this.photos = photos;
+    }
+    
+    public Vector<String> getPhotos(){
+        return photos;
     }
 
     public int[] getSoilMoisture() {

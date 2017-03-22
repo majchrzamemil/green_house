@@ -18,7 +18,11 @@ import box.utils.RaspiPinTools;
 import org.springframework.context.event.EventListener;
 import box.service.GreenHouseManagerService;
 import box.web.websocket.dto.BoxStatsContainer;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Vector;
+import java.util.logging.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
@@ -28,6 +32,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
 
     private static final int WRONG_VALUE = -999;
     private static final int ERROR_COUNTER = 50;
+    private static final String PHOTOS_DIRECOTRY = "/usr/share/apache-tomcat-8.5.8/webapps/green-house-0.0.1-SNAPSHOT/content/images/plant_pictures"; 
     private static final String TAKE_PHOTO_SCRIPT = "sudo /home/pi/green_house/src/main/scripts/take_picture.sh";
     private final Logger log = LoggerFactory.getLogger(GreenHouseManagerServiceImpl.class);
     private static BoxStatsContainer humAndTemp;
@@ -219,9 +224,22 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     public void takePicture() {
         log.debug("taking picture");
         try {
-            Runtime.getRuntime().exec(TAKE_PHOTO_SCRIPT);
+           Runtime runtime = Runtime.getRuntime();
+           runtime.exec(TAKE_PHOTO_SCRIPT);
+           Thread.sleep(2000); //taking picture
+           Process proc = runtime.exec("sudo ls " + PHOTOS_DIRECOTRY);
+           BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+           Vector<String> photos = new Vector<String>();
+           String output = null;
+           while((output = input.readLine()) != null){
+               photos.add(output);
+           }
+           humAndTemp.setPhotos(photos);
+           sendStatistics();
         } catch (IOException ex) {
             log.error("Taking photo filed");
+        } catch (InterruptedException ex) {
+            log.error("Interupted ex");
         }
 
     }
