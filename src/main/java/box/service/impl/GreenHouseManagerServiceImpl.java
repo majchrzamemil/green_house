@@ -190,6 +190,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
 
     private void handleSoilHumidity() {
         if (soilhumidityNotChangingCounter > ERROR_COUNTER) {
+            log.debug("Send exception, soil humidity");
             template.convertAndSend("/topic/exceptions", "Soil humidity not rising!!!!");
 
         }

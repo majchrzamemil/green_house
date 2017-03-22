@@ -29,7 +29,7 @@
         function connect () {
             //building absolute path so that websocket doesnt fail when deploying with a context path
             var loc = $window.location;
-            var url = '//' + loc.host + loc.pathname + 'websocket/exception';
+            var url = '//' + loc.host + loc.pathname + 'websocket/exceptions';
             var socket = new SockJS(url);
             stompClient = Stomp.over(socket);
             var stateChangeStart;
@@ -74,7 +74,7 @@
 
         function subscribe () {
             connected.promise.then(function() {
-                subscriber = stompClient.subscribe('/topic/tempAndHum', function(data) {
+                subscriber = stompClient.subscribe('/topic/exceptions', function(data) {
                     listener.notify(angular.fromJson(data.body));
                 });
             }, null, null);
