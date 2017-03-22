@@ -7,7 +7,7 @@
     GreenHouse.$inject = ['$resource'];
 
     function GreenHouse ($resource) {
-        var resourceUrl =  'api/green-houses/:id';
+        var resourceUrl =  'api/photos/:id';
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},

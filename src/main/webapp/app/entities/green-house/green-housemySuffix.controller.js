@@ -36,31 +36,13 @@
 
         function loadAll() {
             GreenHouse.query(function (result) {
-                vm.greenHouses = result;
+                vm.plantsPhotos = result;
                 vm.searchQuey = null;
             });
-             Photos.query(function (result) {
-                vm.plantsPhotos = result;
-            });
+      
             vm.getPlantsPhotos();
         }
-        function Photos($resource) {
-            var resourceUrl = 'api/photos/:id';
-
-            return $resource(resourceUrl, {}, {
-                'query': {method: 'GET', isArray: true},
-                'get': {
-                    method: 'GET',
-                    transformResponse: function (data) {
-                        if (data) {
-                            data = angular.fromJson(data);
-                        }
-                        return data;
-                    }
-                },
-                'update': {method: 'PUT'}
-            });
-        }
+        
         function makePhotoUrl(photoName) {
 
         }
