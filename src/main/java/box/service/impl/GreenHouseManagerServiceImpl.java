@@ -85,7 +85,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
             for (int i = 0; i < plantsNumber; i++) {
                 //chanel coresponding with place in collection
                 soilHumidity = RaspiPinTools.getSoilHumidity(i + 1);
-                log.debug("SOIL HUMIDITY: " + soilHumidity);
+                log.debug("SOIL HUMIDITY: " + soilHumidity + "soilHumNotChanging: " + soilhumidityNotChangingCounter);
                 soilMoisture[counter] = soilHumidity;
                 if (soilHumidity < manager.getSettings().getMinGrounHumidity()) {
                     if (Math.abs(previousSoilHum - soilHumidity) <= 2) {
@@ -94,6 +94,8 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
                     if (soilhumidityNotChangingCounter < ERROR_COUNTER) {
                         wattering = true;
                         previousSoilHum = soilHumidity;
+                    } else {
+                        wattering = false;
                     }
                 } else if (soilHumidity > manager.getSettings().getMaxGroundHumidity()) {
                     soilhumidityNotChangingCounter = 0;
