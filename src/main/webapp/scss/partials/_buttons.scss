@@ -3,12 +3,18 @@
 	border-color: $brand-orange;
 	color: $base-font-color;
 	&:hover {
-		background-color: $brand-primary;
-		border-color: $brand-primary;
+		background-color: $brand-secondary;
+		border-color: $brand-secondary;
 	}
 
 	-webkit-transition: opacity .1s ease-in-out;
     -moz-transition: opacity .1s ease-in-out;
     -ms-transition: opacity .1s ease-in-out;
     -o-transition: opacity .1s ease-in-out;
+
+    &-danger {
+    	background-color: #c9302c;
+    	border-color: #c9302c;
+    	color: $light-font-color;
+    }
 }

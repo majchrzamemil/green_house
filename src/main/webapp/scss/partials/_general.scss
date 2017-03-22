@@ -1,15 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700');
 @import url('https://fonts.googleapis.com/css?family=Oswald:400,700&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 body {
-    background: #fafafa;
-    font-family: "Oswald", Helvetica, Arial, sans-serif;
+    background: $brand-primary;;
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
     // color: #333;
     color: $base-font-color;
     position: relative;
 
     * {
-        font-family: 'Oswald', sans-serif;
+        font-family: 'Roboto', sans-serif;
         font-weight: bold;
     }
 }
