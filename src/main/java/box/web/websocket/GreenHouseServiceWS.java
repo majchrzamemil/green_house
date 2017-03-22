@@ -40,7 +40,7 @@ public class GreenHouseServiceWS implements ApplicationListener<SessionDisconnec
      * @param errorMessage
      * @return error message form exception.
      */
-    @SendTo("/topic/exception")
+    @SendTo("/topic/exceptions")
     public String reportError(String errorMessage) {
         log.debug("ERROR: " + errorMessage);
         return errorMessage;
