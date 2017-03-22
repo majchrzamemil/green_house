@@ -35,14 +35,8 @@
             </div>
             <div class="col-sm-9">
                 <div class="green-house-photos">
-                    <div class="green-house-photos--item">
-                        <img src="content/images/plant_pictures/cam1.jpg">
-                    </div>
-                    <div class="green-house-photos--item">
-                        <img src="content/images/plant_pictures/cam2.jpg">
-                    </div>
-                    <div class="green-house-photos--item">
-                        <img src="content/images/plant_pictures/cam3.jpg">
+                    <div ng-repeat="photo in vm.plantsPhotos" class="green-house-photos--item">
+                        <img src="content/images/{{photo}}">
                     </div>
                 </div>
             </div>

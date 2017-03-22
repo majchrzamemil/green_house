@@ -5,9 +5,9 @@
     .module('greenHouseApp')
     .controller('GreenHouseMySuffixController', GreenHouseMySuffixController);
 
-    GreenHouseMySuffixController.$inject = ['$scope', '$state', 'GreenHouse', 'HumAndTempService'];
+    GreenHouseMySuffixController.$inject = ['$scope', '$resource', '$http', '$state', 'GreenHouse', 'HumAndTempService'];
 
-    function GreenHouseMySuffixController ($scope, $state, GreenHouse, HumAndTempService) {
+    function GreenHouseMySuffixController ($scope, $resource, $http, $state, GreenHouse, HumAndTempService) {
         var vm = this;
 
         vm.greenHouses = [];
@@ -18,7 +18,9 @@
         vm.pumps;
         vm.lights;
         vm.soilMoisture;
+        vm.plantsPhotos;
 
+        getPlantsPhotos($http, $resource);
         // loadAll();
 
 
@@ -37,6 +39,20 @@
                 vm.greenHouses = result;
                 vm.searchQuey = null;
             });
+            vm.getPlantsPhotos();
         }
+
+        function makePhotoUrl(photoName) {
+            
+        }
+
+        function getPlantsPhotos ($http, $resource) {
+            $http.get('/api/photos').
+            then(function(response) {
+                vm.plantsPhotos = response.data;
+            });
+        }
+
+
     }
 })();
