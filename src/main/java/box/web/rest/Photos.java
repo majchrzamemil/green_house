@@ -32,7 +32,7 @@ public class Photos {
     @Timed
     public List<String> ls() throws IOException {
         Runtime runtime = Runtime.getRuntime();
-        String command = "ls /usr/share/apache-tomcat-8.5.8/webapps/green-house-0.0.1-SNAPSHOT/content/images/plant_pictures";
+        String command = "sudo ls /usr/share/apache-tomcat-8.5.8/webapps/green-house-0.0.1-SNAPSHOT/content/images/plant_pictures";
         Process proc = null;
         try {
             proc = runtime.exec(command);

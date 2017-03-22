@@ -20,8 +20,7 @@
         vm.soilMoisture;
         vm.plantsPhotos;
 
-        getPlantsPhotos($http, $resource);
-        // loadAll();
+         loadAll();
 
 
         HumAndTempService.connect();
@@ -36,13 +35,11 @@
 
         function loadAll() {
             GreenHouse.query(function (result) {
+		console.log("dupa" + result.toString());
                 vm.plantsPhotos = result;
                 vm.searchQuey = null;
             });
-      
-            vm.getPlantsPhotos();
-        }
-        
+	}
         function makePhotoUrl(photoName) {
 
         }
