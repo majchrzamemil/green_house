@@ -229,12 +229,17 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
            Thread.sleep(2000); //taking picture
            Process proc = runtime.exec("sudo ls " + PHOTOS_DIRECOTRY);
            BufferedReader input = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-           Vector<String> photos = new Vector<String>();
+           //TODO: OPTYYMALNIE KURWA MA BYC A NIE
+           Vector<String> photos = new Vector();
            String output = null;
            while((output = input.readLine()) != null){
                photos.add(output);
            }
-           humAndTemp.setPhotos(photos);
+           String photosArray[] = new String[photos.size()];
+           for(int i = 0; i < photos.size(); i++){
+               photosArray[i] = photos.get(i);
+           }
+           humAndTemp.setPhotos(photosArray);
            sendStatistics();
         } catch (IOException ex) {
             log.error("Taking photo filed");

@@ -18,7 +18,7 @@ public class BoxStatsContainer {
    private boolean lightsOn;
    private boolean pumpsOn;
    private boolean humidifierOn;
-   private Vector<String> photos;
+   private String[] photos;
    
     public BoxStatsContainer(double humidity, double temperature, int[] soilMoisture, boolean lightsOn, boolean pumpsOn, boolean humidifierOn) {
         this.humidity = humidity;
@@ -29,11 +29,11 @@ public class BoxStatsContainer {
         this.humidifierOn = humidifierOn;
     }
     
-    public void setPhotos(Vector<String> photos){
+    public void setPhotos(String[] photos){
         this.photos = photos;
     }
     
-    public Vector<String> getPhotos(){
+    public String[] getPhotos(){
         return photos;
     }
 
