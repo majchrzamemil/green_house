@@ -25,7 +25,9 @@
             "startHour": "Start Hour",
             "startMinute": "Start Minute",
             "endMinute": "End Minute",
-            "endHour": "End Hour"
+            "endHour": "End Hour",
+            "lightsStartTime": "Start Lights",
+            "lightsEndTime": "End Lights"
         }
     }
 }

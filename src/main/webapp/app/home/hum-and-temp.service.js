@@ -18,6 +18,7 @@
         var service = {
             connect: connect,
             disconnect: disconnect,
+            sendActivity: sendActivity,
             receive: receive,
             subscribe: subscribe,
             unsubscribe: unsubscribe
@@ -31,7 +32,6 @@
             var url = '//' + loc.host + loc.pathname + 'websocket/tempAndHum';
             var socket = new SockJS(url);
             stompClient = Stomp.over(socket);
-            setTimeout(function(){}, 2500);
             var stateChangeStart;
             var headers = {};
             headers[$http.defaults.xsrfHeaderName] = $cookies.get($http.defaults.xsrfCookieName);
@@ -39,6 +39,7 @@
             stompClient.connect(headers, function () {
                 connected.resolve('success');
                 console.log(connected);
+                sendActivity();
                 if (!alreadyConnectedOnce) {
                     stateChangeStart = $rootScope.$on('$stateChangeStart', function () {
                         sendActivity();
@@ -47,13 +48,16 @@
                 }
             });
             
+
+
             $rootScope.$on('$destroy', function () {
                 if (angular.isDefined(stateChangeStart) && stateChangeStart !== null) {
                     stateChangeStart();
                 }
             });
         }
-        
+        function sendActivity() {
+        }
         function disconnect() {
             if (stompClient !== null) {
                 stompClient.disconnect();
