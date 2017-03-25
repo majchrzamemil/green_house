@@ -136,7 +136,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
             }
         }
         humAndTemp.setLightsOn(lightsOn);
-        
+
     }
 
     //TODO FINISH THIS
@@ -179,10 +179,10 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
     }
 
     private void handleSoilHumidity() {
-        if (soilhumidityNotChangingCounter > ERROR_COUNTER) {
+    //    if (soilhumidityNotChangingCounter > ERROR_COUNTER) {
             template.convertAndSend("/topic/exceptions", "Soil humidity not rising!!!!");
 
-        }
+    //    }
     }
 
     private void sendStatistics() {
@@ -205,6 +205,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
         // managePumps();
         // manageLights();
         sendStatistics();
+        handleSoilHumidity();
         // handleHumidity();
         // handleSoilHumidity();
         // handleTemparature();
