@@ -1,13 +1,13 @@
-(function() {
+(function () {
     'use strict';
 
     angular
-    .module('greenHouseApp')
-    .controller('GreenHouseMySuffixController', GreenHouseMySuffixController);
+        .module('greenHouseApp')
+        .controller('GreenHouseMySuffixController', GreenHouseMySuffixController);
 
     GreenHouseMySuffixController.$inject = ['$scope', '$resource', '$http', '$state', 'GreenHouse', 'HumAndTempService'];
 
-    function GreenHouseMySuffixController ($scope, $resource, $http, $state, GreenHouse, HumAndTempService) {
+    function GreenHouseMySuffixController($scope, $resource, $http, $state, GreenHouse, HumAndTempService) {
         var vm = this;
 
         vm.greenHouses = [];
@@ -19,13 +19,14 @@
         vm.lights;
         vm.soilMoisture;
         vm.plantsPhotos;
+        vm.plants;
 
         getPlantsPhotos($http, $resource);
+        getPlants($http);
         // loadAll();
 
-
         HumAndTempService.connect();
-        HumAndTempService.receive().then(null, null, function(humAndTemp) {
+        HumAndTempService.receive().then(null, null, function (humAndTemp) {
             vm.humidity = humAndTemp.humidity;
             vm.temperature = humAndTemp.temperature;
             vm.humidifier = humAndTemp.humidifierOn;
@@ -35,7 +36,7 @@
         });
 
         function loadAll() {
-            GreenHouse.query(function(result) {
+            GreenHouse.query(function (result) {
                 vm.greenHouses = result;
                 vm.searchQuey = null;
             });
@@ -43,14 +44,22 @@
         }
 
         function makePhotoUrl(photoName) {
-            
+
         }
 
-        function getPlantsPhotos ($http, $resource) {
-            $http.get('/api/photos').
-            then(function(response) {
+        function getPlantsPhotos($http) {
+            $http.get('/api/photos').then(function (response) {
                 vm.plantsPhotos = response.data;
             });
+        }
+
+        function getPlants($http) {
+            console.log('aaaaa');
+            $http.get('/api/plants').then(function (response) {
+                vm.plants = response.data;
+            }).then(function () {
+                console.log('PLANTS:' + vm.plants);
+            })
         }
 
 
