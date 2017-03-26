@@ -56,7 +56,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
         humAndTemp = RaspiPinTools.getTemperatureAndHumidity(manager.getGreenHouse().getTemperature().getPinNumber());
         //TODO: Make it better(working).
         if (manager.getGreenHouse().getHumidifier().getPin() != null) {
-            log.debug("not null");
+            //log.debug("not null");
             if (manager.getGreenHouse().getHumidifier().getPin().getState().isHigh()) {
                 humAndTemp.setHumidifierOn(false);
             } else {
@@ -64,7 +64,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
             }
         }
         //FOR DEBUGING OPITONS
-        log.debug("Humidity read: " + humAndTemp.getHumidity() + ", temperature: " + humAndTemp.getTemperature());
+        log.debug("Humidity read: " + humAndTemp.getHumidity() + "min: " + manager.getSettings().getMinHumidity() + ", temperature: " + humAndTemp.getTemperature());
         if (humAndTemp.getHumidity() != WRONG_VALUE) {
             if (previousHumAndTemp == null) {
                 previousHumAndTemp = humAndTemp;
@@ -74,17 +74,19 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
                     humidityNotChangingCounter++;
                 }
                 previousHumAndTemp = humAndTemp;
+                log.debug(humidityNotChangingCounter + "hum not changing");
                 if (humidityNotChangingCounter < ERROR_COUNTER) {
                     humAndTemp.setHumidifierOn(true);
                     manager.getGreenHouse().getHumidifier().turnOn();
                 } else {
                     humAndTemp.setHumidifierOn(false);
-
+                    log.debug("hum turn off");
                     manager.getGreenHouse().getHumidifier().turnOff();
                 }
             } else if (humAndTemp.getHumidity() >= manager.getSettings().getMaxHumidity()) {
                 humidityNotChangingCounter = 0;
                 humAndTemp.setHumidifierOn(false);
+                    log.debug("hum turn off");
 
                 manager.getGreenHouse().getHumidifier().turnOff();
             }
