@@ -101,7 +101,8 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
         final int plantsNumber = manager.getGreenHouse().getPlants().size();
         int[] soilMoisture = new int[plantsNumber];
         try {
-            for (int i = 0; i < plantsNumber; i++) {
+            //Because I have only one soil sensor
+            for (int i = 0; i < 1/*plantsNumber*/; i++) {
                 //chanel coresponding with place in collection
                 soilHumidity = RaspiPinTools.getSoilHumidity(i + 1);
                 log.debug("SOIL HUMIDITY: " + soilHumidity + "soilHumNotChanging: " + soilhumidityNotChangingCounter);
