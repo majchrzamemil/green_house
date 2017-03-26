@@ -77,6 +77,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
                 log.debug(humidityNotChangingCounter + "hum not changing");
                 if (humidityNotChangingCounter < ERROR_COUNTER) {
                     humAndTemp.setHumidifierOn(true);
+                    humidityNotChangingCounter = 0;
                     manager.getGreenHouse().getHumidifier().turnOn();
                 } else {
                     humAndTemp.setHumidifierOn(false);
