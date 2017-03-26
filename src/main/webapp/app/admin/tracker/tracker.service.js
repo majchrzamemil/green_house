@@ -27,9 +27,10 @@
         return service;
 
         function connect () {
+            console.log('connecting to JhiTracker');
             //building absolute path so that websocket doesnt fail when deploying with a context path
             var loc = $window.location;
-            var url = '//' + loc.host + loc.pathname + 'websocket/tempAndHum';
+            var url = '//' + loc.host + loc.pathname + 'websocket/exceptions';
             var socket = new SockJS(url);
             stompClient = Stomp.over(socket);
             var stateChangeStart;
@@ -67,15 +68,15 @@
             if (stompClient !== null && stompClient.connected) {
                 stompClient
                     .send('/topic/abc',
-                    {},
-                    angular.toJson({'page': $rootScope.toState.name}));
+                        {},
+                        angular.toJson({'page': $rootScope.toState.name}));
             }
         }
 
         function subscribe () {
             connected.promise.then(function() {
-                subscriber = stompClient.subscribe('/topic/tempAndHum', function(data) {
-                    listener.notify(angular.fromJson(data.body));
+                subscriber = stompClient.subscribe('/topic/exceptions', function(data) {
+                    listener.notify(data.body);
                 });
             }, null, null);
         }
