@@ -30,10 +30,11 @@
                     return $translate.refresh();
                 }]
             },
-            onEnter: ['HumAndTempService', function(HumAndTempService) {
-                    console.log("dadsadas");
+            onEnter: ['HumAndTempService', 'JhiTrackerService', function(HumAndTempService, JhiTrackerService) {
                 HumAndTempService.subscribe();
-            }], onExit: ['HumAndTempService', function(HumAndTempService) {
+                JhiTrackerService.subscribe();
+            }], onExit: ['HumAndTempService', 'JhiTrackerService', function(HumAndTempService, JhiTrackerService) {
+                JhiTrackerService.unsubscribe();
                 HumAndTempService.unsubscribe();
             }]
 

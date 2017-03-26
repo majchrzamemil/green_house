@@ -49,12 +49,17 @@
                         <div class="item-bar item--humidity-bar" ng-if="plant.humidity">{{ plant.humidity }}%</div>
                         <div class="item-bar item--humidity-bar" ng-if="!plant.humidity">Błąd odczytu</div>
                         <img src="content/images/weed-login.jpg">
-                        <div class="item-bar item--name-bar">Plant {{ $index }}</div>
+                        <div class="item-bar item--name-bar">{{ plant.name }}</div>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
+    <ul ng-if="vm.activities.length != 0" class="error-panel">
+        <li ng-repeat="error in vm.activities" class="error-panel--item">
+            {{ error }}
+        </li>
+    </ul>
 </div>
 <script>
     $(function () {

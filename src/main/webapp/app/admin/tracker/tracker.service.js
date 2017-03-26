@@ -27,6 +27,7 @@
         return service;
 
         function connect () {
+            console.log('connecting to JhiTracker');
             //building absolute path so that websocket doesnt fail when deploying with a context path
             var loc = $window.location;
             var url = '//' + loc.host + loc.pathname + 'websocket/exceptions';
@@ -75,7 +76,7 @@
         function subscribe () {
             connected.promise.then(function() {
                 subscriber = stompClient.subscribe('/topic/exceptions', function(data) {
-                    listener.notify(angular.fromJson(data.body));
+                    listener.notify(data.body);
                 });
             }, null, null);
         }

@@ -79,8 +79,8 @@
                 vm.plants = response.data;
             }).then(function () {
                 //testowe ustawienie humidity dla dwóch pierwszych plantów
-                vm.plants[0].humidity = 30;
-                vm.plants[1].humidity = 35;
+                // vm.plants[0].humidity = 30;
+                // vm.plants[1].humidity = 35;
                 setPlantsSoilHumidity(checkIfMultipleSoilHumidifier(vm.plants), vm.plants);
             });
         }

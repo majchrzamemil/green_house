@@ -105,4 +105,20 @@
 			}
 		}
 	}
+
+    .error-panel {
+        position: fixed;
+        bottom: 0;
+        display: block;
+        padding: 10px 10px 0 10px;
+        background-color: #e00000;
+        width: 100%;
+        color: white;
+        .error-panel--item {
+            margin-left: 5px;
+            border: 2px solid;
+            padding: 5px;
+            margin-bottom: 10px
+        }
+    }
 }
