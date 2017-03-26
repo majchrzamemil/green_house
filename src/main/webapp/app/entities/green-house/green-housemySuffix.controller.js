@@ -21,9 +21,11 @@
         vm.soilMoisture;
         vm.plantsPhotos;
         vm.plants;
+        vm.photosLoaded = false;
 
         loadAll();
         getPlants($http);
+        getPlantsPhotos($http);
 
 
         HumAndTempService.connect();
@@ -71,6 +73,12 @@
         function getPlantsPhotos($http) {
             $http.get('/api/photos').then(function (response) {
                 vm.plantsPhotos = response.data;
+                vm.photosLoaded = true;
+                //testowe ustawienie nazw zdjęć
+                // setTimeout(function () {
+                //     vm.plantsPhotos = ['cam1.jpg', 'cam2.jpg', 'cam3.jpg'];
+                //     vm.photosLoaded = true;
+                // }, 2000);
             });
         }
 
@@ -81,6 +89,7 @@
                 //testowe ustawienie humidity dla dwóch pierwszych plantów
                 // vm.plants[0].humidity = 30;
                 // vm.plants[1].humidity = 35;
+                // console.log(vm.plants);
                 setPlantsSoilHumidity(checkIfMultipleSoilHumidifier(vm.plants), vm.plants);
             });
         }

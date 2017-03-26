@@ -34,7 +34,16 @@
 			}
 		}
 	}
+    .green-house-photos-loader {
+        font-size: 30px;
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+    }
 	.green-house-photos {
+        display: none;
 		&--item {
 			height: 100%;
 			width: 100%;

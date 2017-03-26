@@ -34,7 +34,10 @@
                 </ul>
             </div>
             <div class="col-sm-9">
-                <div class="green-house-photos">
+                <div class="green-house-photos-loader">
+                    LOADING PHOTOS...
+                </div>
+                <div ng-if="vm.photosLoaded == true" class="green-house-photos">
                     <div ng-repeat="photo in vm.plantsPhotos" class="green-house-photos--item">
                         <img src="content/images/plant_pictures/{{photo}}">
                     </div>
@@ -62,13 +65,15 @@
     </ul>
 </div>
 <script>
-    $(function () {
+    setTimeout(function () {
+        $('.green-house-photos--loader').hide();
+        $('.green-house-photos').show();
         $('.green-house-photos').slick({
             infinite: true,
             slidesToShow: 1,
             slidesToScroll: 1
         });
-    });
+    }, 5000);
 </script>
 <!-- <h2 data-translate="greenHouseApp.greenHouse.home.title">Green Houses</h2>
 <jhi-alert></jhi-alert>
