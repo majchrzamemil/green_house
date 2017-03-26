@@ -87,7 +87,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
             } else if (humAndTemp.getHumidity() >= manager.getSettings().getMaxHumidity()) {
                 humidityNotChangingCounter = 0;
                 humAndTemp.setHumidifierOn(false);
-                    log.debug("hum turn off");
+                log.debug("hum turn off");
 
                 manager.getGreenHouse().getHumidifier().turnOff();
             }
@@ -176,33 +176,43 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
         return true;
     }
 
-    private void handleTemparature() {
+    private boolean handleTemparature() {
         if (humAndTemp.getTemperature() < manager.getSettings().getMinTemperature()) {
             template.convertAndSend("/topic/exceptions", "To low temperature!!!!");
+            return true;
         } else if (humAndTemp.getTemperature() > manager.getSettings().getMaxTemperature()) {
             template.convertAndSend("/topic/exceptions", "To high temperature!!!!");
+            return true; //error raported
         }
+        return false; //no error
     }
 
-    private void handleHumidity() {
+    private boolean handleHumidity() {
         if (humidityNotChangingCounter > ERROR_COUNTER) {
             template.convertAndSend("/topic/exceptions", "Humidity not rising!!!!");
-
+            return true; //error raported
         }
+        return false; //no error
     }
 
-    private void handleSoilHumidity() {
+    private boolean handleSoilHumidity() {
         if (soilhumidityNotChangingCounter > ERROR_COUNTER) {
             log.debug("Send exception, soil humidity");
             template.convertAndSend("/topic/exceptions", "Soil humidity not rising!!!!");
 
+            return true; //error raported
         }
+        return false; //no error
     }
 
     private void sendStatistics() {
         if (humAndTemp.getHumidity() != WRONG_VALUE && humAndTemp.getTemperature() != WRONG_VALUE) {
             template.convertAndSend("/topic/tempAndHum", humAndTemp);
         }
+    }
+    
+    private void noError(){
+        template.convertAndSend("topic/exceptions,", "NO_ERROR");
     }
 
     @Override
@@ -212,6 +222,7 @@ public class GreenHouseManagerServiceImpl implements GreenHouseManagerService {
         managePumps();
         manageLights();
         sendStatistics();
+        if(handleHumidity() == false && handleSoilHumidity() == false && handleTemparature() == false)
         handleHumidity();
         handleSoilHumidity();
         handleTemparature();
