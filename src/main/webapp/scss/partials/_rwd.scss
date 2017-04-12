@@ -1,3 +1,9 @@
+@media (max-width: 1151px) {
+    .dashboard .green-house-plants .green-house-plants--item img {
+        height: 250px;
+    }
+}
+
 @media (max-width: 991px) {
     .homepage {
         padding: 0;
@@ -47,6 +53,9 @@
             }
         }
     }
+    .dashboard .green-house-plants .green-house-plants--item img {
+        height: 200px;
+    }
 }
 
 @media (max-width: 500px) {
@@ -68,5 +77,8 @@
                 width: 100%;
             }
         }
+    }
+    .dashboard .green-house-plants .green-house-plants--item img {
+        height: 300px;
     }
 }
