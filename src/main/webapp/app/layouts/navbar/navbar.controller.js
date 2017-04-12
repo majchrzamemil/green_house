@@ -43,7 +43,7 @@
         }
 
         function checkIfAdminRole() {
-            
+
         }
 
         function login() {

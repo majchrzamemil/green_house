@@ -1,0 +1,72 @@
+@media (max-width: 991px) {
+    .homepage {
+        padding: 0;
+        .homepage-nouser {
+            margin-top: 50px;
+            height: 250px;
+        }
+    }
+
+    .dashboard {
+        .green-house-state {
+            .green-house-info {
+                margin-bottom: 20px;
+                padding-bottom: 0;
+                text-align: center;
+
+                &--stat {
+                    display: inline-block;
+                    margin-right: 20px;
+                    margin-bottom: 20px;
+
+                    &_value {
+                        font-size: 20px;
+
+                        &.stat-switch {
+                            display: block;
+                        }
+                    }
+
+                }
+            }
+        }
+
+        .green-house-plants {
+            .green-house-plants--item {
+                width: 33.33%;
+            }
+        }
+    }
+}
+
+@media (max-width: 720px) {
+    .dashboard {
+        .green-house-plants {
+            .green-house-plants--item {
+                width: 50%;
+            }
+        }
+    }
+}
+
+@media (max-width: 500px) {
+    h1 {
+        font-size: 100px;
+    }
+    .dashboard {
+        .green-house-state {
+            .green-house-info {
+                padding-top: 10px;
+                &--stat {
+                    font-size: 10px;
+                    margin-bottom: 10px;
+                }
+            }
+        }
+        .green-house-plants {
+            .green-house-plants--item {
+                width: 100%;
+            }
+        }
+    }
+}

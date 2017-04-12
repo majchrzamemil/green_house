@@ -43,8 +43,7 @@ public class Photos {
     List<String> photos = new ArrayList<>();
     while((output = input.readLine()) != null){
       photos.add(output);
-    }   
-    photos.add("chuj");
+    }
         return photos;
     }
 

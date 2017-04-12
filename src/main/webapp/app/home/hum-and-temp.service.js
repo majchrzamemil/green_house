@@ -3,8 +3,8 @@
     /* globals SockJS, Stomp */
 
     angular
-            .module('greenHouseApp')
-            .factory('HumAndTempService', HumAndTempService);
+        .module('greenHouseApp')
+        .factory('HumAndTempService', HumAndTempService);
 
     HumAndTempService.$inject = ['$rootScope', '$window', '$cookies', '$http', '$q'];
 
@@ -47,7 +47,7 @@
                     alreadyConnectedOnce = true;
                 }
             });
-            
+
 
 
             $rootScope.$on('$destroy', function () {
