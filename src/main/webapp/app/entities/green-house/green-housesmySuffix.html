@@ -41,12 +41,13 @@
                     <div class="green-house-photos--item">
                         <img ng-src="content/images/plant_pictures/{{vm.currentPhoto}}">
                     </div>
-                    <button class="btn" ng-click="getPreviousPhoto()"><</button>
-                    <button class="btn" ng-click="getNextPhoto()">></button>
+                    <button class="prev-photo-btn" ng-click="getPreviousPhoto()"><</button>
+                    <button class="next-photo-btn" ng-click="getNextPhoto()">></button>
                 </div>
             </div>
         </div>
         <div class="row">
+            <h2>My plants</h2>
             <div class="col-sm-12">
                 <ul class="green-house-plants">
                         <li ng-repeat="plant in vm.plants track by plant.id" class="green-house-plants--item">

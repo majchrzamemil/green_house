@@ -43,7 +43,39 @@
         transform: translateX(-50%) translateY(-50%);
     }
 	.green-house-photos {
-        //display: none;
+        position: relative;
+
+        button {
+            position: absolute;
+            height: 100%;
+            top: 0;
+            width: 8%;
+            background-color: black;
+            opacity: .5;
+            border: none;
+            font-size: 3vw;
+            text-align: center;
+            color: white;
+
+            -webkit-transition: opacity .2s;
+            -moz-transition: opacity .2s;
+            -ms-transition: opacity .2s;
+            -o-transition: opacity .2s;
+            transition: opacity .2s;
+
+            &.prev-photo-btn {
+                left: 0;
+            }
+            &.next-photo-btn {
+                right: 0;
+            }
+            &:hover {
+                opacity: 1;
+            }
+            &:focus {
+                outline: none;
+            }
+        }
 		&--item {
 			height: 100%;
 			width: 100%;
