@@ -23,10 +23,8 @@ public class RaspiPinTools {
     private static final int MAXTIMINGS = 85;
     private static int[] dht11Data = {0, 0, 0, 0, 0};
     private static final byte INIT_CMD = (byte) 0xD0; // 11010000
-    private static final SpiDevice spi = SpiFactory.getInstance(SpiChannel.CS0,
-                                         SpiDevice.DEFAULT_SPI_SPEED, 
-                                         SpiDevice.DEFAULT_SPI_MODE); 
-    
+    private static SpiDevice spi = null;
+
     public static Pin getEnumFromInt(int pinNumber) {
 
         switch (pinNumber) {
@@ -55,7 +53,6 @@ public class RaspiPinTools {
         return (dht11Data[4] == ((dht11Data[0] + dht11Data[1] + dht11Data[2] + dht11Data[3]) & 0xFF));
     }
 
-    
     public static BoxStatsContainer getTemperatureAndHumidity(int pinNumber) {
 
         int laststate = Gpio.HIGH;
@@ -99,7 +96,7 @@ public class RaspiPinTools {
         if ((j >= 40) && checkParity()) {
             float h = (float) ((dht11Data[0] << 8) + dht11Data[1]) / 10;
             if (h > 100) {
-                h = dht11Data[0];   
+                h = dht11Data[0];
             }
             float c = (float) (((dht11Data[2] & 0x7F) << 8) + dht11Data[3]) / 10;
             if (c > 125) {
@@ -116,14 +113,20 @@ public class RaspiPinTools {
     }
 
     public static int getSoilHumidity(int chanel) throws IOException {
+        if (spi == null) {
+            spi = SpiFactory.getInstance(SpiChannel.CS0,
+                    SpiDevice.DEFAULT_SPI_SPEED,
+                    SpiDevice.DEFAULT_SPI_MODE);
+
+        }
         byte packet[] = new byte[3];
-        packet[0] = 0x01;  
-        packet[1] = (byte) ((0x08 + chanel) << 4);  
+        packet[0] = 0x01;
+        packet[1] = (byte) ((0x08 + chanel) << 4);
         packet[2] = 0x00;
 
         byte[] result = spi.write(packet);
         int out = ((result[1] & 0x03) << 8) | (result[2] & 0xff);
-        int percentage = (int)((double)out / 10.24);
+        int percentage = (int) ((double) out / 10.24);
 
         return percentage;
     }
