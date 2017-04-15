@@ -11,9 +11,11 @@
 @import "partials/dashboard";
 @import "partials/profile-settings";
 
-// html, body {
-//     height: 100%;
-// }
+@import "partials/rwd";
+
+ html, body {
+     height: 100%;
+ }
 
 .footer {
     display: none;
@@ -21,6 +23,33 @@
 
 .navbar {
     margin-bottom: 0;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: #fff;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #fff;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-color: $brand-primary;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #ffda97;
+}
+
+.registration-view {
+    h1 {
+        color: #333;
+        font-size: 50px;
+        text-align: center;
+    }
+}
+h2  {
+    text-align: center;
 }
 
 .overlay {

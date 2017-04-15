@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -22,17 +22,17 @@
                 }
             },
             resolve: {
-                translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
+                translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                     $translatePartialLoader.addPart('home');
                     return $translate.refresh();
                 }]
-            },onEnter: ['HumAndTempService', function(HumAndTempService) {
-                    console.log("dadsadas");
+            }, onEnter: ['HumAndTempService', function (HumAndTempService) {
+                console.log("dadsadas");
                 HumAndTempService.subscribe();
-            }], onExit: ['HumAndTempService', function(HumAndTempService) {
+            }], onExit: ['HumAndTempService', function (HumAndTempService) {
                 HumAndTempService.unsubscribe();
             }]
-            
+
         });
     }
 })();

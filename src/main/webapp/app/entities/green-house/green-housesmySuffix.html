@@ -1,7 +1,7 @@
 <div class="dashboard">
-    <div class="container">
-        <div class="green-house-state row">
-            <div class="col-sm-3">
+    <div class="container-fluid">
+        <div class="green-house-state row   ">
+            <div class="col-md-3 col-xs-12">
                 <ul class="green-house-info">
                     <li class="green-house-info--stat">
                         <span data-translate="greenHouseApp.greenHouse.humidity">Humidity</span>
@@ -33,25 +33,27 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-sm-9">
-                <div class="green-house-photos-loader">
-                    LOADING PHOTOS...
-                </div>
-                <div ng-if="vm.photosLoaded == true" class="green-house-photos">
-                    <div ng-repeat="photo in vm.plantsPhotos" class="green-house-photos--item">
-                        <img src="content/images/plant_pictures/{{photo}}">
+            <div class="col-md-9 col-xs-12">
+                <!--<div class="green-house-photos-loader">-->
+                    <!--LOADING PHOTOS...-->
+                <!--</div>-->
+                <div class="green-house-photos">
+                    <div class="green-house-photos--item">
+                        <img ng-src="content/images/plant_pictures/{{vm.currentPhoto}}">
                     </div>
+                    <button class="prev-photo-btn" ng-click="getPreviousPhoto()"><</button>
+                    <button class="next-photo-btn" ng-click="getNextPhoto()">></button>
                 </div>
             </div>
         </div>
         <div class="row">
+            <h2>My plants</h2>
             <div class="col-sm-12">
                 <ul class="green-house-plants">
-
-                    <li ng-repeat="plant in vm.plants track by $index" class="green-house-plants--item">
-                        <div class="item-bar item--humidity-bar" ng-if="plant.humidity">{{ plant.humidity }}%</div>
-                        <div class="item-bar item--humidity-bar" ng-if="!plant.humidity">Błąd odczytu</div>
-                        <img src="content/images/weed-login.jpg">
+                        <li ng-repeat="plant in vm.plants track by plant.id" class="green-house-plants--item">
+                        <div class="item-bar item--humidity-bar">{{ plant.soilMoisture }}%</div>
+                        <!-- <div class="item-bar item--humidity-bar" ng-if="!plant.soilMoisture">Błąd odczytu</di -->
+                        <img src="content/images/plants/{{plant.id}}.jpg">
                         <div class="item-bar item--name-bar">{{ plant.name }}</div>
                     </li>
                 </ul>
@@ -64,18 +66,6 @@
         </li>
     </ul>
 </div>
-<script>
-    setTimeout(function () {
-        console.log('hide');
-        $('.green-house-photos-loader').hide();
-        $('.green-house-photos').show();
-        $('.green-house-photos').slick({
-            infinite: true,
-            slidesToShow: 1,
-            slidesToScroll: 1
-        });
-    }, 5000);
-</script>
 <!-- <h2 data-translate="greenHouseApp.greenHouse.home.title">Green Houses</h2>
 <jhi-alert></jhi-alert>
 <div class="container-fluid">
